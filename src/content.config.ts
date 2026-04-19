@@ -16,6 +16,7 @@ const books = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		author: z.string(),
+		order: z.number().optional(),
 		rating: z.number().min(1).max(5).optional(),
 		status: z.enum(['reading', 'read', 'plan-to-read']),
 		finishDate: z.date().optional(),

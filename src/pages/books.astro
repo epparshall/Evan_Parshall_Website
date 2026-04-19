@@ -1,39 +1,35 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const books = await getCollection('books');
-const booksWithContent = await Promise.all(
-	books.map(async (book) => {
-		const { Content } = await render(book);
-		return { ...book, Content };
-	})
-);
+
+// Robust sorting: items with 'order' come first (ascending), then by title
+books.sort((a, b) => {
+	const orderA = a.data.order ?? Infinity;
+	const orderB = b.data.order ?? Infinity;
+	if (orderA !== orderB) return orderA - orderB;
+	return a.data.title.localeCompare(b.data.title);
+});
 ---
 
 <BaseLayout title="Books">
 	<h1>Books</h1>
-	<p>My reading list, reviews, and favorites.</p>
+	<p>My favorite books, ranked and reviewed. Click on a book to read my full notes.</p>
 	<ul class="book-list">
-		{booksWithContent.map((book) => (
+		{books.map((book, index) => (
 			<li class="book-item">
+				<div class="rank">{book.data.order ? `#${book.data.order}` : `#${index + 1}`}</div>
 				<div class="book-info">
-					<h2>{book.data.title}</h2>
+					<a href={`/books/${book.id}`}>
+						<h2>{book.data.title}</h2>
+					</a>
 					<p class="author">by {book.data.author}</p>
 					<div class="meta">
 						<span class="status">{book.data.status}</span>
 						{book.data.rating && (
 							<span class="rating"> - {book.data.rating}/5 stars</span>
 						)}
-						{book.data.finishDate && (
-							<span class="finish-date"> - finished: {book.data.finishDate.toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'short',
-							})}</span>
-						)}
-					</div>
-					<div class="content">
-						<book.Content />
 					</div>
 				</div>
 			</li>
@@ -48,14 +44,33 @@ const booksWithContent = await Promise.all(
 	}
 
 	.book-item {
-		margin-bottom: 3rem;
-		border-bottom: 1px solid #eee;
+		display: flex;
+		gap: 1.5rem;
+		align-items: flex-start;
+		margin-bottom: 2rem;
 		padding-bottom: 1.5rem;
+		border-bottom: 1px solid #eee;
+	}
+
+	.rank {
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: var(--color-accent);
+		min-width: 3rem;
 	}
 
 	.book-item h2 {
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.1rem;
 		font-size: 1.5rem;
+	}
+
+	.book-item a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.book-item a:hover h2 {
+		color: var(--color-accent);
 	}
 
 	.author {
@@ -68,10 +83,5 @@ const booksWithContent = await Promise.all(
 		font-size: 0.85rem;
 		color: #888;
 		text-transform: uppercase;
-		margin-bottom: 1rem;
-	}
-
-	.content {
-		line-height: 1.6;
 	}
 </style>

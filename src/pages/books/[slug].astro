@@ -1,0 +1,92 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const bookEntries = await getCollection('books');
+	return bookEntries.map(entry => ({
+		params: { slug: entry.id }, props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title}>
+	<article class="book-detail">
+		<header>
+			<p class="rank">#{entry.data.order || 'Unranked'}</p>
+			<h1>{entry.data.title}</h1>
+			<p class="author">by {entry.data.author}</p>
+			<div class="meta">
+				<span class="status">{entry.data.status}</span>
+				{entry.data.rating && (
+					<span class="rating"> - {entry.data.rating}/5 stars</span>
+				)}
+				{entry.data.finishDate && (
+					<span class="finish-date"> - finished: {entry.data.finishDate.toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'short',
+					})}</span>
+				)}
+			</div>
+		</header>
+		<hr />
+		<div class="content">
+			<Content />
+		</div>
+		<footer>
+			<a href="/books">&larr; Back to all books</a>
+		</footer>
+	</article>
+</BaseLayout>
+
+<style>
+	.book-detail header {
+		margin-bottom: 2rem;
+	}
+
+	.rank {
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: var(--color-accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.book-detail h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.author {
+		font-size: 1.5rem;
+		font-style: italic;
+		color: #666;
+		margin-bottom: 1rem;
+	}
+
+	.meta {
+		font-size: 1rem;
+		color: #888;
+		text-transform: uppercase;
+		margin-bottom: 2rem;
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid #eee;
+		margin: 2rem 0;
+	}
+
+	.content {
+		line-height: 1.8;
+		font-size: 1.15rem;
+	}
+
+	.book-detail footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid #eee;
+	}
+</style>
