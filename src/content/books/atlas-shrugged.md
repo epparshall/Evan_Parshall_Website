@@ -10,7 +10,7 @@ I was confused at first. Why only one book? Then I saw the size of the book.
 
 I don't usually read fiction. I used to think it had less value since it didn't actually happen. But as I was reading this one, I started noticing a lot of parallels to real life. The value isn't in whether it actually happened. It's in whether it makes you think.
 
-The biggest impact for me was how seriously Rand treats individual responsibility. Not in a vague, motivational-poster way, but tied directly to value creation. She frames productive work, building things, solving problems, as a moral act. 
+The biggest impact for me was how seriously Rand treats individual responsibility. If you want to feel in control of your life and make an impact on the world, it's important to take responsibility for both the good and the bad. Equally important is to not blame other people or society as a whole for life's shortcomings. Rand even frames productive work, building things, solving problems, as a moral act. 
 
 She also pushes a more uncomfortable idea: that people should be judged, and even loved, based on what value they add and not out of obligation or proximity. That one stuck with me more than I expected. After all, who wants to be loved out of obligation?
 
