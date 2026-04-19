@@ -1,6 +1,24 @@
 {
   "favoriteBooks": [
-    "the-pragmatic-programmer",
-    "clean-code"
+    "atlas-shrugged",
+    "how-not-to-age",
+    "why-nations-fail",
+    "behave",
+    "the-gene",
+    "the-emperor-of-all-maladies",
+    "outlive",
+    "factfulness",
+    "why-we-sleep",
+    "blind-spots",
+    "the-culture-map",
+    "naked-statistics",
+    "cryptography",
+    "data-driven-science-and-engineering",
+    "the-hidden-life-of-trees"
+  ],
+  "honorableMentions": [
+    "wanting",
+    "breath",
+    "a-random-walk-down-wall-street"
   ]
 }

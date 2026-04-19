@@ -5,41 +5,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const books = await getCollection('books');
 const rankingsEntry = await getEntry('rankings', 'rankings');
 const favoriteOrder = rankingsEntry?.data.favoriteBooks || [];
+const honorableMentionsOrder = rankingsEntry?.data.honorableMentions || [];
 
-// Sort books based on the ranking list
-const sortedBooks = books.sort((a, b) => {
-	const indexA = favoriteOrder.indexOf(a.id);
-	const indexB = favoriteOrder.indexOf(b.id);
-	
-	// If both are in the favorites list
-	if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-	// If only A is in favorites
-	if (indexA !== -1) return -1;
-	// If only B is in favorites
-	if (indexB !== -1) return 1;
-	// If neither, sort alphabetically
-	return a.data.title.localeCompare(b.data.title);
-});
+// Map books by ID for easy lookup
+const bookMap = Object.fromEntries(books.map(book => [book.id, book]));
 
-// Create a helper function to get rank
-function getBookRank(id: string) {
-	const index = favoriteOrder.indexOf(id);
-	return index !== -1 ? index + 1 : null;
-}
+// Get ranked books in order
+const rankedBooks = favoriteOrder
+	.map(id => bookMap[id])
+	.filter(Boolean);
+
+// Get honorable mentions in order
+const honorableMentions = honorableMentionsOrder
+	.map(id => bookMap[id])
+	.filter(Boolean);
+
+// Get any other books that aren't in either list
+const otherBooks = books.filter(book => 
+	!favoriteOrder.includes(book.id) && !honorableMentionsOrder.includes(book.id)
+);
 ---
 
 <BaseLayout title="Books">
 	<h1>Books</h1>
 	<p>My favorite books, ranked and reviewed. Click on a book to read my full notes.</p>
-	<ul class="book-list">
-		{sortedBooks.map((book) => {
-			const rank = getBookRank(book.id);
-			return (
+	
+	<section class="book-section">
+		<h2>Top Favorites</h2>
+		<ul class="book-list">
+			{rankedBooks.map((book, index) => (
 				<li class="book-item">
-					<div class="rank">{rank ? `#${rank}` : '-'}</div>
+					<div class="rank">#{index + 1}</div>
+					{book.data.image && (
+						<div class="book-cover">
+							<a href={`/books/${book.id}`}>
+								<img src={book.data.image} alt={book.data.title} />
+							</a>
+						</div>
+					)}
 					<div class="book-info">
 						<a href={`/books/${book.id}`}>
-							<h2>{book.data.title}</h2>
+							<h3>{book.data.title}</h3>
 						</a>
 						<p class="author">by {book.data.author}</p>
 						<div class="meta">
@@ -50,15 +56,75 @@ function getBookRank(id: string) {
 						</div>
 					</div>
 				</li>
-			);
-		})}
-	</ul>
+			))}
+		</ul>
+	</section>
+
+	{honorableMentions.length > 0 && (
+		<section class="book-section">
+			<h2>Honorable Mentions</h2>
+			<ul class="book-list">
+				{honorableMentions.map((book) => (
+					<li class="book-item">
+						<div class="rank">HM</div>
+						{book.data.image && (
+							<div class="book-cover">
+								<a href={`/books/${book.id}`}>
+									<img src={book.data.image} alt={book.data.title} />
+								</a>
+							</div>
+						)}
+						<div class="book-info">
+							<a href={`/books/${book.id}`}>
+								<h3>{book.data.title}</h3>
+							</a>
+							<p class="author">by {book.data.author}</p>
+							<div class="meta">
+								<span class="status">{book.data.status}</span>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
+
+	{otherBooks.length > 0 && (
+		<section class="book-section">
+			<h2>Other Reads</h2>
+			<ul class="book-list">
+				{otherBooks.map((book) => (
+					<li class="book-item">
+						<div class="rank">-</div>
+						<div class="book-info">
+							<a href={`/books/${book.id}`}>
+								<h3>{book.data.title}</h3>
+							</a>
+							<p class="author">by {book.data.author}</p>
+							<div class="meta">
+								<span class="status">{book.data.status}</span>
+							</div>
+						</div>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
 </BaseLayout>
 
 <style>
+	.book-section {
+		margin-top: 3rem;
+	}
+
+	.book-section h2 {
+		border-bottom: 2px solid var(--color-accent);
+		display: inline-block;
+		margin-bottom: 2rem;
+	}
+
 	.book-list {
 		list-style: none;
-		margin-top: 2rem;
 	}
 
 	.book-item {
@@ -71,23 +137,37 @@ function getBookRank(id: string) {
 	}
 
 	.rank {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: bold;
 		color: var(--color-accent);
 		min-width: 3rem;
+		padding-top: 0.25rem;
 	}
 
-	.book-item h2 {
+	.book-cover {
+		width: 80px;
+		flex-shrink: 0;
+	}
+
+	.book-cover img {
+		width: 100%;
+		height: auto;
+		border-radius: 4px;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		display: block;
+	}
+
+	.book-info h3 {
 		margin-bottom: 0.1rem;
 		font-size: 1.5rem;
 	}
 
-	.book-item a {
+	.book-info a {
 		text-decoration: none;
 		color: inherit;
 	}
 
-	.book-item a:hover h2 {
+	.book-info a:hover h3 {
 		color: var(--color-accent);
 	}
 

@@ -15,27 +15,34 @@ const { Content } = await render(entry);
 // Get the rank
 const rankingsEntry = await getEntry('rankings', 'rankings');
 const favoriteOrder = rankingsEntry?.data.favoriteBooks || [];
+const honorableMentionsOrder = rankingsEntry?.data.honorableMentions || [];
+
 const rankIndex = favoriteOrder.indexOf(entry.id);
 const rank = rankIndex !== -1 ? rankIndex + 1 : null;
+const isHonorableMention = honorableMentionsOrder.includes(entry.id);
 ---
 
 <BaseLayout title={entry.data.title}>
 	<article class="book-detail">
 		<header>
 			{rank && <p class="rank">#{rank} Favorite</p>}
-			<h1>{entry.data.title}</h1>
-			<p class="author">by {entry.data.author}</p>
-			<div class="meta">
-				<span class="status">{entry.data.status}</span>
-				{entry.data.rating && (
-					<span class="rating"> - {entry.data.rating}/5 stars</span>
+			{isHonorableMention && <p class="rank">Honorable Mention</p>}
+			<div class="header-content">
+				{entry.data.image && (
+					<div class="book-cover">
+						<img src={entry.data.image} alt={entry.data.title} />
+					</div>
 				)}
-				{entry.data.finishDate && (
-					<span class="finish-date"> - finished: {entry.data.finishDate.toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: 'short',
-					})}</span>
-				)}
+				<div class="book-titles">
+					<h1>{entry.data.title}</h1>
+					<p class="author">by {entry.data.author}</p>
+					<div class="meta">
+						<span class="status">{entry.data.status}</span>
+						{entry.data.rating && (
+							<span class="rating"> - {entry.data.rating}/5 stars</span>
+						)}
+					</div>
+				</div>
 			</div>
 		</header>
 		<hr />
@@ -58,6 +65,29 @@ const rank = rankIndex !== -1 ? rankIndex + 1 : null;
 		font-weight: bold;
 		color: var(--color-accent);
 		margin-bottom: 0.5rem;
+	}
+
+	.header-content {
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start;
+		margin-top: 1rem;
+	}
+
+	.book-cover {
+		width: 150px;
+		flex-shrink: 0;
+	}
+
+	.book-cover img {
+		width: 100%;
+		height: auto;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	}
+
+	.book-titles {
+		flex: 1;
 	}
 
 	.book-detail h1 {

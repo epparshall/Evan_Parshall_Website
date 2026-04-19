@@ -16,6 +16,7 @@ const books = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		author: z.string(),
+		image: z.string().optional(),
 		rating: z.number().min(1).max(5).optional(),
 		status: z.enum(['reading', 'read', 'plan-to-read']),
 		finishDate: z.date().optional(),
@@ -26,6 +27,7 @@ const rankings = defineCollection({
 	loader: glob({ pattern: 'rankings.json', base: "./src/content" }),
 	schema: z.object({
 		favoriteBooks: z.array(z.string()),
+		honorableMentions: z.array(z.string()).optional(),
 	})
 });
 
