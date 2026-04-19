@@ -37,9 +37,8 @@ const isHonorableMention = honorableMentionsOrder.includes(entry.id);
 					<h1>{entry.data.title}</h1>
 					<p class="author">by {entry.data.author}</p>
 					<div class="meta">
-						<span class="status">{entry.data.status}</span>
 						{entry.data.rating && (
-							<span class="rating"> - {entry.data.rating}/5 stars</span>
+							<span class="rating">{entry.data.rating}/5 stars</span>
 						)}
 					</div>
 				</div>

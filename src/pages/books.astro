@@ -49,9 +49,8 @@ const otherBooks = books.filter(book =>
 						</a>
 						<p class="author">by {book.data.author}</p>
 						<div class="meta">
-							<span class="status">{book.data.status}</span>
 							{book.data.rating && (
-								<span class="rating"> - {book.data.rating}/5 stars</span>
+								<span class="rating">{book.data.rating}/5 stars</span>
 							)}
 						</div>
 					</div>
@@ -79,9 +78,6 @@ const otherBooks = books.filter(book =>
 								<h3>{book.data.title}</h3>
 							</a>
 							<p class="author">by {book.data.author}</p>
-							<div class="meta">
-								<span class="status">{book.data.status}</span>
-							</div>
 						</div>
 					</li>
 				))}
@@ -101,9 +97,6 @@ const otherBooks = books.filter(book =>
 								<h3>{book.data.title}</h3>
 							</a>
 							<p class="author">by {book.data.author}</p>
-							<div class="meta">
-								<span class="status">{book.data.status}</span>
-							</div>
 						</div>
 					</li>
 				))}

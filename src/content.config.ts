@@ -18,7 +18,6 @@ const books = defineCollection({
 		author: z.string(),
 		image: z.string().optional(),
 		rating: z.number().min(1).max(5).optional(),
-		status: z.enum(['reading', 'read', 'plan-to-read']),
 		finishDate: z.date().optional(),
 	}),
 });
