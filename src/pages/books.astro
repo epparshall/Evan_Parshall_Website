@@ -1,39 +1,57 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const books = await getCollection('books');
+const rankingsEntry = await getEntry('rankings', 'rankings');
+const favoriteOrder = rankingsEntry?.data.favoriteBooks || [];
 
-// Robust sorting: items with 'order' come first (ascending), then by title
-books.sort((a, b) => {
-	const orderA = a.data.order ?? Infinity;
-	const orderB = b.data.order ?? Infinity;
-	if (orderA !== orderB) return orderA - orderB;
+// Sort books based on the ranking list
+const sortedBooks = books.sort((a, b) => {
+	const indexA = favoriteOrder.indexOf(a.id);
+	const indexB = favoriteOrder.indexOf(b.id);
+	
+	// If both are in the favorites list
+	if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+	// If only A is in favorites
+	if (indexA !== -1) return -1;
+	// If only B is in favorites
+	if (indexB !== -1) return 1;
+	// If neither, sort alphabetically
 	return a.data.title.localeCompare(b.data.title);
 });
+
+// Create a helper function to get rank
+function getBookRank(id: string) {
+	const index = favoriteOrder.indexOf(id);
+	return index !== -1 ? index + 1 : null;
+}
 ---
 
 <BaseLayout title="Books">
 	<h1>Books</h1>
 	<p>My favorite books, ranked and reviewed. Click on a book to read my full notes.</p>
 	<ul class="book-list">
-		{books.map((book, index) => (
-			<li class="book-item">
-				<div class="rank">{book.data.order ? `#${book.data.order}` : `#${index + 1}`}</div>
-				<div class="book-info">
-					<a href={`/books/${book.id}`}>
-						<h2>{book.data.title}</h2>
-					</a>
-					<p class="author">by {book.data.author}</p>
-					<div class="meta">
-						<span class="status">{book.data.status}</span>
-						{book.data.rating && (
-							<span class="rating"> - {book.data.rating}/5 stars</span>
-						)}
+		{sortedBooks.map((book) => {
+			const rank = getBookRank(book.id);
+			return (
+				<li class="book-item">
+					<div class="rank">{rank ? `#${rank}` : '-'}</div>
+					<div class="book-info">
+						<a href={`/books/${book.id}`}>
+							<h2>{book.data.title}</h2>
+						</a>
+						<p class="author">by {book.data.author}</p>
+						<div class="meta">
+							<span class="status">{book.data.status}</span>
+							{book.data.rating && (
+								<span class="rating"> - {book.data.rating}/5 stars</span>
+							)}
+						</div>
 					</div>
-				</div>
-			</li>
-		))}
+				</li>
+			);
+		})}
 	</ul>
 </BaseLayout>
 

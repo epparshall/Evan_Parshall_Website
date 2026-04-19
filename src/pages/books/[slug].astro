@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
@@ -11,12 +11,18 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+// Get the rank
+const rankingsEntry = await getEntry('rankings', 'rankings');
+const favoriteOrder = rankingsEntry?.data.favoriteBooks || [];
+const rankIndex = favoriteOrder.indexOf(entry.id);
+const rank = rankIndex !== -1 ? rankIndex + 1 : null;
 ---
 
 <BaseLayout title={entry.data.title}>
 	<article class="book-detail">
 		<header>
-			<p class="rank">#{entry.data.order || 'Unranked'}</p>
+			{rank && <p class="rank">#{rank} Favorite</p>}
 			<h1>{entry.data.title}</h1>
 			<p class="author">by {entry.data.author}</p>
 			<div class="meta">

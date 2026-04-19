@@ -1,7 +1,6 @@
 ---
 title: "Clean Code"
 author: "Robert C. Martin"
-order: 2
 rating: 4
 status: "read"
 finishDate: 2023-03-20
