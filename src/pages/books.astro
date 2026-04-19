@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const books = await getCollection('books');
+const booksWithContent = await Promise.all(
+	books.map(async (book) => {
+		const { Content } = await render(book);
+		return { ...book, Content };
+	})
+);
+---
+
+<BaseLayout title="Books">
+	<h1>Books</h1>
+	<p>My reading list, reviews, and favorites.</p>
+	<ul class="book-list">
+		{booksWithContent.map((book) => (
+			<li class="book-item">
+				<div class="book-info">
+					<h2>{book.data.title}</h2>
+					<p class="author">by {book.data.author}</p>
+					<div class="meta">
+						<span class="status">{book.data.status}</span>
+						{book.data.rating && (
+							<span class="rating"> - {book.data.rating}/5 stars</span>
+						)}
+						{book.data.finishDate && (
+							<span class="finish-date"> - finished: {book.data.finishDate.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'short',
+							})}</span>
+						)}
+					</div>
+					<div class="content">
+						<book.Content />
+					</div>
+				</div>
+			</li>
+		))}
+	</ul>
+</BaseLayout>
+
+<style>
+	.book-list {
+		list-style: none;
+		margin-top: 2rem;
+	}
+
+	.book-item {
+		margin-bottom: 3rem;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 1.5rem;
+	}
+
+	.book-item h2 {
+		margin-bottom: 0.25rem;
+		font-size: 1.5rem;
+	}
+
+	.author {
+		font-style: italic;
+		color: #666;
+		margin-bottom: 0.5rem;
+	}
+
+	.meta {
+		font-size: 0.85rem;
+		color: #888;
+		text-transform: uppercase;
+		margin-bottom: 1rem;
+	}
+
+	.content {
+		line-height: 1.6;
+	}
+</style>

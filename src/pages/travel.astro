@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const destinations = await getCollection('travel');
+destinations.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const travelWithContent = await Promise.all(
+	destinations.map(async (dest) => {
+		const { Content } = await render(dest);
+		return { ...dest, Content };
+	})
+);
+---
+
+<BaseLayout title="Travel">
+	<h1>Travel</h1>
+	<p>Places I've visited and stories from my travels.</p>
+	<ul class="travel-list">
+		{travelWithContent.map((dest) => (
+			<li class="travel-item">
+				<div class="travel-info">
+					<h2>{dest.data.destination}</h2>
+					<time class="date" datetime={dest.data.date.toISOString()}>
+						{dest.data.date.toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+						})}
+					</time>
+					<p>{dest.data.description}</p>
+					<div class="content">
+						<dest.Content />
+					</div>
+				</div>
+			</li>
+		))}
+	</ul>
+</BaseLayout>
+
+<style>
+	.travel-list {
+		list-style: none;
+		margin-top: 2rem;
+	}
+
+	.travel-item {
+		margin-bottom: 3rem;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 1.5rem;
+	}
+
+	.travel-item h2 {
+		margin-bottom: 0.25rem;
+		font-size: 1.5rem;
+	}
+
+	.date {
+		display: block;
+		font-size: 0.9rem;
+		color: #666;
+		margin-bottom: 0.75rem;
+	}
+
+	.content {
+		margin-top: 1rem;
+		line-height: 1.6;
+	}
+</style>

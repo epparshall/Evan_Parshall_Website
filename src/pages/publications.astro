@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pubs = await getCollection('publications');
+pubs.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const pubsWithContent = await Promise.all(
+	pubs.map(async (pub) => {
+		const { Content } = await render(pub);
+		return { ...pub, Content };
+	})
+);
+---
+
+<BaseLayout title="Publications">
+	<h1>Publications</h1>
+	<p>Selected professional writing, research papers, and other publications.</p>
+	<ul class="pub-list">
+		{pubsWithContent.map((pub) => (
+			<li class="pub-item">
+				<div class="pub-info">
+					<h2><a href={pub.data.link}>{pub.data.title}</a></h2>
+					<p class="publisher">
+						{pub.data.publisher} &middot; {pub.data.pubDate.toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+						})}
+					</p>
+					<div class="content">
+						<pub.Content />
+					</div>
+				</div>
+			</li>
+		))}
+	</ul>
+</BaseLayout>
+
+<style>
+	.pub-list {
+		list-style: none;
+		margin-top: 2rem;
+	}
+
+	.pub-item {
+		margin-bottom: 3rem;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 1.5rem;
+	}
+
+	.pub-item h2 {
+		margin-bottom: 0.25rem;
+		font-size: 1.5rem;
+	}
+
+	.pub-item h2 a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.pub-item h2 a:hover {
+		color: var(--color-accent);
+	}
+
+	.publisher {
+		font-size: 0.95rem;
+		color: #666;
+		margin-bottom: 0.75rem;
+	}
+
+	.content {
+		margin-top: 1rem;
+		line-height: 1.6;
+	}
+</style>

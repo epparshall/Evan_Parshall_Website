@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Home">
+	<section class="hero">
+		<h1>Hi, I'm Evan Parshall</h1>
+		<p>
+			I'm a software engineer based in Carmel, Indiana.
+		</p>
+		<p>
+			This is my personal space where I share my thoughts, the books I'm reading, my travel experiences, and my professional work.
+		</p>
+	</section>
+
+	<section class="links">
+		<p>Explore my collections:</p>
+		<ul>
+			<li><a href="/blog">Blog</a> - Thoughts on tech and life.</li>
+			<li><a href="/books">Books</a> - My reading list and reviews.</li>
+			<li><a href="/travel">Travel</a> - Places I've visited and stories from the road.</li>
+			<li><a href="/publications">Publications</a> - My professional writing and research.</li>
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		padding: 2rem 0;
+	}
+
+	.hero h1 {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	.hero p {
+		font-size: 1.25rem;
+		max-width: 60ch;
+	}
+
+	.links {
+		margin-top: 2rem;
+	}
+
+	.links ul {
+		list-style: none;
+		margin-top: 1rem;
+	}
+
+	.links li {
+		margin-bottom: 0.5rem;
+	}
+</style>
