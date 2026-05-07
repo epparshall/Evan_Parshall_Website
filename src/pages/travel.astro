@@ -25,6 +25,7 @@ const travelWithContent = await Promise.all(
 						{dest.data.date.toLocaleDateString('en-US', {
 							year: 'numeric',
 							month: 'long',
+							timeZone: 'UTC',
 						})}
 					</time>
 					<p>{dest.data.description}</p>
