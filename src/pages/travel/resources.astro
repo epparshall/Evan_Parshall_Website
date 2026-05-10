@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const resources = await getCollection('travelResources');
+---
+
+<BaseLayout title="Travel Tips & Resources">
+	<h1>General Tips & Resources</h1>
+	<p>A collection of gear, services, and advice I've gathered from my travels.</p>
+
+	<ul class="resources-list">
+		{resources.map(resource => (
+			<li class="resource-card">
+				<a href={`/travel/resources/${resource.id}`}>
+					<h2>{resource.data.title}</h2>
+					<p>{resource.data.description}</p>
+				</a>
+			</li>
+		))}
+	</ul>
+
+	<footer>
+		<a href="/travel">&larr; Back to Travel</a>
+	</footer>
+</BaseLayout>
+
+<style>
+	.resources-list {
+		list-style: none;
+		margin-top: 2rem;
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	}
+
+	.resource-card a {
+		display: block;
+		padding: 1.5rem;
+		background: #f9f9f9;
+		border-radius: 8px;
+		text-decoration: none;
+		color: inherit;
+		border: 1px solid transparent;
+		transition: border-color 0.2s, transform 0.2s;
+		height: 100%;
+	}
+
+	.resource-card a:hover {
+		border-color: var(--color-accent);
+		transform: translateY(-2px);
+	}
+
+	.resource-card h2 {
+		margin-bottom: 0.5rem;
+		font-size: 1.25rem;
+		color: var(--color-accent);
+	}
+
+	.resource-card p {
+		font-size: 0.95rem;
+		color: #666;
+		line-height: 1.4;
+	}
+
+	footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid #eee;
+	}
+</style>

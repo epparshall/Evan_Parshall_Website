@@ -49,10 +49,19 @@ const publications = defineCollection({
 	}),
 });
 
+const travelResources = defineCollection({
+	loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/travelResources" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+	}),
+});
+
 export const collections = {
 	blog,
 	books,
 	rankings,
 	travel,
+	travelResources,
 	publications,
 };

@@ -11,11 +11,24 @@ const travelWithContent = await Promise.all(
 		return { ...dest, Content };
 	})
 );
+
+const resources = await getCollection('travelResources');
 ---
 
 <BaseLayout title="Travel">
 	<h1>Travel</h1>
 	<p>Places I've visited and stories from my travels.</p>
+
+	<section class="resources-link">
+		<a href="/travel/resources">
+			<span class="icon">✈️</span>
+			<strong>General Tips & Resources</strong>
+			<span class="arrow">&rarr;</span>
+		</a>
+	</section>
+
+	<hr class="section-divider" />
+
 	<ul class="travel-list">
 		{travelWithContent.map((dest) => (
 			<li class="travel-item">
@@ -42,6 +55,48 @@ const travelWithContent = await Promise.all(
 	.travel-list {
 		list-style: none;
 		margin-top: 2rem;
+	}
+
+	.resources-link {
+		margin: 2rem 0;
+	}
+
+	.resources-link a {
+		display: flex;
+		align-items: center;
+		padding: 1rem 1.5rem;
+		background: #f9f9f9;
+		border-radius: 8px;
+		text-decoration: none;
+		color: inherit;
+		border: 1px solid #eee;
+		transition: background 0.2s, border-color 0.2s;
+	}
+
+	.resources-link a:hover {
+		background: #fff;
+		border-color: var(--color-accent);
+	}
+
+	.resources-link .icon {
+		font-size: 1.5rem;
+		margin-right: 1rem;
+	}
+
+	.resources-link strong {
+		flex: 1;
+		font-size: 1.1rem;
+	}
+
+	.resources-link .arrow {
+		color: var(--color-accent);
+		font-weight: bold;
+	}
+
+	.section-divider {
+		border: 0;
+		border-top: 1px solid #eee;
+		margin: 3rem 0;
 	}
 
 	.travel-item {

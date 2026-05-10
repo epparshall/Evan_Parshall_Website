@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const resourceEntries = await getCollection('travelResources');
+	return resourceEntries.map(entry => ({
+		params: { slug: entry.id }, props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title}>
+	<article class="resource-detail">
+		<header>
+			<h1>{entry.data.title}</h1>
+			<p class="description">{entry.data.description}</p>
+		</header>
+		<hr />
+		<div class="content">
+			<Content />
+		</div>
+		<footer>
+			<a href="/travel/resources">&larr; Back to travel tips</a>
+		</footer>
+	</article>
+</BaseLayout>
+
+<style>
+	.resource-detail header {
+		margin-bottom: 2rem;
+	}
+
+	.resource-detail h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.description {
+		font-size: 1.25rem;
+		color: #666;
+		font-style: italic;
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid #eee;
+		margin: 2rem 0;
+	}
+
+	.content {
+		line-height: 1.8;
+		font-size: 1.15rem;
+	}
+
+	.resource-detail footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid #eee;
+	}
+</style>
