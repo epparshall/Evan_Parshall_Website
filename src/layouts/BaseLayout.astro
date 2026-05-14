@@ -34,7 +34,10 @@ const { title } = Astro.props;
 			<slot />
 		</main>
 		<footer>
-			<p>&copy; {new Date().getFullYear()} Evan Parshall. Built with Astro.</p>
+			<div class="footer-content">
+				<p>&copy; {new Date().getFullYear()} Evan Parshall. Built with Astro.</p>
+				<p><a href="mailto:epparshall@gmail.com">epparshall@gmail.com</a></p>
+			</div>
 		</footer>
 	</body>
 </html>
@@ -107,6 +110,18 @@ const { title } = Astro.props;
 		border-top: 1px solid #eee;
 		font-size: 0.9rem;
 		color: #666;
+	}
+
+	.footer-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.footer-content p {
+		margin-bottom: 0;
 	}
 
 	h1, h2, h3 {

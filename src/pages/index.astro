@@ -4,13 +4,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="Home">
 	<section class="hero">
-		<h1>Hi, I'm Evan Parshall</h1>
-		<p>
-			I'm a software engineer based in Carmel, Indiana.
-		</p>
-		<p>
-			This is my personal space where I share my thoughts, the books I'm reading, my travel experiences, and my professional work.
-		</p>
+		<div class="hero-content">
+			<div class="hero-text">
+				<h1>Hi, I'm Evan Parshall</h1>
+				<p>
+					I'm a software engineer based in Carmel, Indiana.
+				</p>
+				<p>
+					This is my personal space where I share my thoughts, the books I'm reading, my travel experiences, and my professional work.
+				</p>
+			</div>
+			<div class="hero-image">
+				<img src="/images/evan-parshall.jpg" alt="Evan Parshall" />
+			</div>
+		</div>
 	</section>
 
 	<section class="links">
@@ -22,11 +29,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<li><a href="/publications">Publications</a> - My professional writing and research.</li>
 		</ul>
 	</section>
+
+	<section class="connect">
+		<p>Connect with me:</p>
+		<ul>
+			<li><a href="mailto:epparshall@gmail.com">epparshall@gmail.com</a></li>
+			<li><a href="https://www.linkedin.com/in/evanparshall/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+			<li><a href="https://github.com/epparshall" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+		</ul>
+	</section>
 </BaseLayout>
 
 <style>
 	.hero {
 		padding: 2rem 0;
+	}
+
+	.hero-content {
+		display: flex;
+		align-items: center;
+		gap: 3rem;
+		flex-wrap: wrap-reverse;
+	}
+
+	.hero-text {
+		flex: 1;
+		min-width: 300px;
+	}
+
+	.hero-image {
+		flex-shrink: 0;
+	}
+
+	.hero-image img {
+		width: 250px;
+		height: 250px;
+		object-fit: cover;
+		border-radius: 50%;
+		box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+		border: 4px solid #fff;
 	}
 
 	.hero h1 {
@@ -37,18 +78,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.hero p {
 		font-size: 1.25rem;
 		max-width: 60ch;
+		line-height: 1.6;
 	}
 
-	.links {
+	.links, .connect {
 		margin-top: 2rem;
 	}
 
-	.links ul {
+	.links ul, .connect ul {
 		list-style: none;
 		margin-top: 1rem;
 	}
 
-	.links li {
+	.links li, .connect li {
 		margin-bottom: 0.5rem;
 	}
 </style>
