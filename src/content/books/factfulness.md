@@ -4,7 +4,7 @@ author: "Hans Rosling"
 image: "/images/books/factfulness.jpg"
 ---
 
-I found this one through a ChatGPT recommendation and picked it up from the public library. It is one of the more educational books I have read, and also light enough to read before bed. Rosling wrote it to be accessible, and it shows.
+I found this one through a ChatGPT recommendation and picked it up from the public library. *Factfulness* is one of the more educational books I have read, and also light enough to read before bed. Rosling wrote it to be accessible, and it shows.
 
 The central argument is simple: when asked basic questions about global trends, people are not just wrong. They are systematically, predictably wrong in ways that make the world look far worse than it actually is. 
 

@@ -4,9 +4,9 @@ author: "Ayn Rand"
 image: "/images/books/atlas-shrugged.jpg"
 ---
 
-My first real job out of school was in Product Innovation at ZF in Lafayette, Indiana. My boss, Dan Williams, was a big reader, so one day I asked him for book recommendations. He smiled and said Atlas Shrugged. I was confused at first. Why only one book? Then I saw the size of Atlas Shrugged and understood. It is over 1,000 pages long and the book's most famous monologue (the John Galt speech) is something like 70 pages on its own. This is not a casual read, it’s a real commitment.
+My first real job out of school was in Product Innovation at ZF in Lafayette, Indiana. My boss, Dan Williams, was a big reader, so one day I asked him for book recommendations. He smiled and said *Atlas Shrugged*. I was confused at first. Why only one book? Then I saw the size of *Atlas Shrugged* and understood. It is over 1,000 pages long and the book's most famous monologue (the John Galt speech) is something like 70 pages on its own. This is not a casual read, it’s a real commitment.
 
-I do not usually read fiction. I used to think it had less to offer than nonfiction because none of it actually happened. Atlas Shrugged changed how I think about fiction. The value of fiction, I realized, is not in whether the events happened. It is in whether the ideas in the story sharpen the way you see the world. By that measure this book delivers more than most nonfiction I have read.
+I do not usually read fiction. I used to think it had less to offer than nonfiction because none of it actually happened. *Atlas Shrugged* changed how I think about fiction. The value of fiction, I realized, is not in whether the events happened. It is in whether the ideas in the story sharpen the way you see the world. By that measure this book delivers more than most nonfiction I have read.
 
 Some context on Ayn Rand matters here. She was born in Russia in 1905 and emigrated to the United States in 1926. She witnessed the Russian Revolution and what happened to her family and her country under early Soviet rule firsthand. That background matters because the hostility to collectivism that drives the whole book is not an abstract philosophical position. It is a response to having watched a real political ideology destroy real lives. Whether or not you agree with where she lands, the urgency in her writing is earned.
 

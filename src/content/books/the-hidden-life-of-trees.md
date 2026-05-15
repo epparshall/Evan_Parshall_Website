@@ -4,7 +4,7 @@ author: "Peter Wohlleben"
 image: "/images/books/the-hidden-life-of-trees.jpg"
 ---
 
-The Hidden Life of Trees by Peter Wohlleben is one of those books that quietly changes how you walk through the world. Wohlleben is a German forester who spent over twenty years working in the forestry industry before leaving to manage a more ecologically minded forest in the Eifel mountains. The book is his attempt to share what twenty years of careful observation taught him about how forests actually work, and it makes you realize how much is happening in a forest that the average person walks right past.
+*The Hidden Life of Trees* by Peter Wohlleben is one of those books that quietly changes how you walk through the world. Wohlleben is a German forester who spent over twenty years working in the forestry industry before leaving to manage a more ecologically minded forest in the Eifel mountains. The book is his attempt to share what twenty years of careful observation taught him about how forests actually work, and it makes you realize how much is happening in a forest that the average person walks right past.
 
 I think people forget that trees are alive in part because they live so much longer than we do. A two hundred year old tree barely registers as old in its own community. A four hundred year old beech is still considered middle aged. We see a forest as a static backdrop, but it is actually a slow motion drama happening on a timescale we are not built to perceive.
 

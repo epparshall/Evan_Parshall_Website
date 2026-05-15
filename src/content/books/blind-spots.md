@@ -4,7 +4,7 @@ author: "Marty Makary"
 image: "/images/books/blind-spots.jpg"
 ---
 
-Reading Mukherjee's The Gene and The Emperor of All Maladies left me with a question I could not shake. Both books trace how politics, ego, and institutional power shaped what got called science. I kept wondering how much of that was still happening today, dressed up in modern credentialing and peer review. This book is exactly that question answered.
+Reading Mukherjee's *The Gene* and *The Emperor of All Maladies* left me with a question I could not shake. Both books trace how politics, ego, and institutional power shaped what got called science. I kept wondering how much of that was still happening today, dressed up in modern credentialing and peer review. This book is exactly that question answered.
 
 Makary is a surgeon and public health researcher at Johns Hopkins. He is someone who has spent his career watching the medical establishment make confident, consequential mistakes and then resist admitting them. The book walks through a series of case studies, and the individual stories are alarming enough on their own. But the more I read, the more I noticed that the specific failures were not nearly as important as understanding what caused them.
 

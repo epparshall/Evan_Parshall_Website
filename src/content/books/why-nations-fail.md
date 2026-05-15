@@ -4,7 +4,7 @@ author: "Daron Acemoglu and James A. Robinson"
 image: "/images/books/why-nations-fail.jpg"
 ---
 
-Why exactly do nations fail? A friend recommended this book to me after hearing the authors shared a Nobel Prize for their work, and the question stuck with me before I even cracked it open.
+Why exactly do nations fail? A friend recommended *Why Nations Fail* to me after hearing the authors shared a Nobel Prize for their work, and the question stuck with me before I even cracked it open.
 
 Before reading, a lot of possible theories come to mind. Maybe certain countries have better natural resources than others? Or maybe it has to do with a country's geography? Could it be religion? Or could it just come down to a country's culture and history?
 

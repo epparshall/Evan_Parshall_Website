@@ -4,7 +4,7 @@ author: "Peter Attia"
 image: "/images/books/outlive.jpg"
 ---
 
-My parents were gifted this book. I found it on their shelf and read the whole thing. I have been begging them to read it ever since.
+My parents were gifted this book. I found it on their shelf and read the whole thing. I have been begging them to read *Outlive* ever since.
 
 Attia trained as a surgeon at Johns Hopkins, left practicing medicine out of frustration with a system he felt was not actually serving patients, and redirected his career toward something more interesting to him: preventing people from getting sick in the first place. He calls this Medicine 3.0, and the basic premise is that the entire orientation of modern medicine is backwards. We wait for people to get sick, then we try to treat them. Attia thinks that by the time you are getting treated, you have already lost years you did not have to lose.
 
