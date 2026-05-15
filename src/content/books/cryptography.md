@@ -4,7 +4,7 @@ author: "Keith Martin"
 image: "/images/books/cryptography.jpg"
 ---
 
-People hear about cryptography in so many ways without actually understanding what it does. Cryptocurrencies, hacking, quantum computers breaking encryption, end to end encrypted messaging. But what is all of the fuss about, how does cryptography actually work, and how does it protect you? Keith Martin, a professor of information security at Royal Holloway in London, wrote this book to answer those questions for non-technical readers, and he does a great job of it.
+People hear about cryptography in so many ways without actually understanding what it does. Cryptocurrencies, hacking, quantum computers breaking encryption, end to end encrypted messaging. But what is all of the fuss about, how does cryptography actually work, and how does it protect you? Keith Martin, a professor of information security at Royal Holloway in London, wrote *Cryptography: The Key to Digital Security, How It Works, and Why It Matters* to answer those questions for non-technical readers, and he does a great job of it.
 
 The thing that makes the book work is that Martin does not try to explain cryptography from the lens of a computer scientist. Instead, he leans on analogies that anyone can follow.
 
