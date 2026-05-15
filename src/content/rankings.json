@@ -1,29 +1,29 @@
 {
   "favoriteBooks": [
-    "atlas-shrugged",
-    "how-not-to-age",
     "why-nations-fail",
+    "how-not-to-age",
+    "atlas-shrugged",
     "behave",
+    "outlive",
+    "why-we-sleep",
     "the-gene",
     "the-emperor-of-all-maladies",
-    "outlive",
-    "factfulness",
-    "why-we-sleep",
-    "blind-spots",
-    "the-culture-map",
-    "naked-statistics",
-    "cryptography",
-    "data-driven-science-and-engineering",
-    "the-hidden-life-of-trees"
-  ],
-  "honorableMentions": [
-    "wanting",
-    "breath",
     "a-random-walk-down-wall-street",
     "the-speed-of-trust",
     "sapiens",
     "the-bitcoin-standard",
+    "breath",
+    "data-driven-science-and-engineering",
+    "blind-spots",
+    "the-culture-map",
+    "the-hidden-life-of-trees",
+    "factfulness",
     "the-richest-man-in-babylon",
     "fluent-forever"
+  ],
+  "honorableMentions": [
+    "naked-statistics",
+    "cryptography",
+    "wanting"
   ]
 }
