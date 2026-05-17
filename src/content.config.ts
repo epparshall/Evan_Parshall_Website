@@ -36,6 +36,7 @@ const travel = defineCollection({
 		destination: z.string(),
 		date: z.date(),
 		description: z.string(),
+		image: z.string().optional(),
 	}),
 });
 

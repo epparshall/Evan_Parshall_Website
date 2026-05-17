@@ -1,23 +1,14 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const destinations = await getCollection('travel');
 destinations.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const travelWithContent = await Promise.all(
-	destinations.map(async (dest) => {
-		const { Content } = await render(dest);
-		return { ...dest, Content };
-	})
-);
-
-const resources = await getCollection('travelResources');
 ---
 
 <BaseLayout title="Travel">
 	<h1>Travel</h1>
-	<p>Places I've visited and stories from my travels.</p>
+	<p>Places I've visited and stories from my travels. Click on a destination to read more.</p>
 
 	<section class="resources-link">
 		<a href="/travel/resources">
@@ -30,10 +21,12 @@ const resources = await getCollection('travelResources');
 	<hr class="section-divider" />
 
 	<ul class="travel-list">
-		{travelWithContent.map((dest) => (
+		{destinations.map((dest) => (
 			<li class="travel-item">
 				<div class="travel-info">
-					<h2>{dest.data.destination}</h2>
+					<a href={`/travel/${dest.id}`}>
+						<h2>{dest.data.destination}</h2>
+					</a>
 					<time class="date" datetime={dest.data.date.toISOString()}>
 						{dest.data.date.toLocaleDateString('en-US', {
 							year: 'numeric',
@@ -41,10 +34,7 @@ const resources = await getCollection('travelResources');
 							timeZone: 'UTC',
 						})}
 					</time>
-					<p>{dest.data.description}</p>
-					<div class="content">
-						<dest.Content />
-					</div>
+					{dest.data.description && <p>{dest.data.description}</p>}
 				</div>
 			</li>
 		))}
@@ -101,13 +91,26 @@ const resources = await getCollection('travelResources');
 
 	.travel-item {
 		margin-bottom: 3rem;
+		padding-bottom: 2rem;
 		border-bottom: 1px solid #eee;
-		padding-bottom: 1.5rem;
+	}
+
+	.travel-info {
+		flex: 1;
+	}
+
+	.travel-info a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.travel-info a:hover h2 {
+		color: var(--color-accent);
 	}
 
 	.travel-item h2 {
 		margin-bottom: 0.25rem;
-		font-size: 1.5rem;
+		font-size: 1.75rem;
 	}
 
 	.date {
@@ -117,8 +120,20 @@ const resources = await getCollection('travelResources');
 		margin-bottom: 0.75rem;
 	}
 
-	.content {
+	.read-more {
+		display: inline-block;
 		margin-top: 1rem;
-		line-height: 1.6;
+		color: var(--color-accent) !important;
+		font-weight: 500;
+	}
+
+	@media (max-width: 600px) {
+		.travel-item {
+			flex-direction: column;
+			gap: 1rem;
+		}
+		.travel-thumbnail {
+			width: 100%;
+		}
 	}
 </style>

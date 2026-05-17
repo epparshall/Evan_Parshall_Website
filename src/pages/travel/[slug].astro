@@ -1,0 +1,100 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const travelEntries = await getCollection('travel');
+	return travelEntries.map(entry => ({
+		params: { slug: entry.id }, props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.destination}>
+	<article class="travel-detail">
+		<header>
+			<h1>{entry.data.destination}</h1>
+			<time class="date" datetime={entry.data.date.toISOString()}>
+				{entry.data.date.toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					timeZone: 'UTC',
+				})}
+			</time>
+			{entry.data.description && <p class="description">{entry.data.description}</p>}
+		</header>
+		<hr />
+		<div class="content">
+			<Content />
+		</div>
+		<footer>
+			<a href="/travel">&larr; Back to travel</a>
+		</footer>
+	</article>
+</BaseLayout>
+
+<style>
+	.travel-detail header {
+		margin-bottom: 2rem;
+	}
+
+	.travel-detail h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.date {
+		display: block;
+		font-size: 1.25rem;
+		color: #666;
+		margin-bottom: 1rem;
+	}
+
+	.description {
+		font-size: 1.1rem;
+		line-height: 1.5;
+		color: #444;
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid #eee;
+		margin: 2rem 0;
+	}
+
+	.content {
+		line-height: 1.8;
+		font-size: 1.15rem;
+	}
+
+	.content :global(figure) {
+		margin: 2rem 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.content :global(img) {
+		max-width: 100%;
+		height: auto;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+		margin-bottom: 0.75rem;
+	}
+
+	.content :global(figcaption) {
+		font-style: italic;
+		text-align: center;
+		font-size: 1rem;
+		color: var(--color-text);
+	}
+
+	.travel-detail footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid #eee;
+	}
+</style>
