@@ -20,6 +20,7 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 						year: 'numeric',
 						month: 'long',
 						day: 'numeric',
+						timeZone: 'UTC'
 					})}
 				</time>
 				<p>{post.data.description}</p>
