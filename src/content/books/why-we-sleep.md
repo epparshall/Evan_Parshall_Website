@@ -8,7 +8,7 @@ image: "/images/books/why-we-sleep.jpg"
 
 What makes the book hit is that Walker is not pitching sleep as a wellness fad. He is presenting decades of research showing that if you consistently sleep less than seven hours, you are quietly compounding damage across nearly every measure of health and performance that you care about.
 
-I am not going to get too deep here because I wrote a full blog post on this book based on a talk I gave at SEP. That post is the better place to find my specific takeaways and what changed for me after reading it. You can find it here: [/blog/science-of-sleep](/blog/science-of-sleep)
+I am not going to get too deep here because I wrote a full blog post on this book based on a talk I gave at SEP. That post is the better place to find my specific takeaways and what changed for me after reading it. You can find it [here](/blog/science-of-sleep).
 
 One thing worth flagging if you do pick up the book. *Why We Sleep* has drawn legitimate criticism from researchers, most notably Alexey Guzey, who pointed out factual errors and overstated claims in some specific sections. Walker has acknowledged some of these and corrections have been issued.
 
