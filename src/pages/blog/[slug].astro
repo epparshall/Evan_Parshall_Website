@@ -57,26 +57,24 @@ const { Content } = await render(entry);
 	}
 
 	.content :global(img) {
-		display: inline-block !important;
-		margin: 0 auto !important;
-		max-width: 150px !important;
+		display: block !important;
+		margin: 3rem auto !important;
+		max-width: 100% !important; /* Allow diagrams to fill the container */
 		width: auto !important;
 		height: auto !important;
 		border-radius: 8px;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 	}
 
-	.content :global(p:has(img)),
-	.content :global(p img) {
-		text-align: center !important;
+	/* Target book covers specifically to keep them small but readable */
+	.content :global(img[alt*="Cover"]),
+	.content :global(img[src*="walker_book"]) {
+		max-width: 280px !important; /* Increased from 220px */
+		box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 	}
 
 	.content :global(p:has(img)) {
-		display: flex !important;
-		flex-direction: column !important;
-		align-items: center !important;
-		justify-content: center !important;
-		margin: 2rem auto !important;
+		text-align: center !important;
 		width: 100% !important;
 	}
 
@@ -84,19 +82,21 @@ const { Content } = await render(entry);
 		margin-bottom: 1.5rem;
 		overflow-wrap: break-word;
 		word-break: break-word;
+		text-align: left; /* Explicitly ensure normal text is left aligned */
 	}
 
-	/* Target only paragraphs that immediately follow an image (captions) */
-	.content :global(p:has(img) + p) {
+	/* Target only paragraphs that immediately follow an image AND contain ONLY emphasis (captions) */
+	.content :global(p:has(img) + p:has(> em:only-child)),
+	.content :global(p:has(img) + p:has(> i:only-child)) {
 		text-align: center !important;
 		margin-top: -1rem !important;
 		margin-bottom: 2.5rem !important;
 	}
 
-	.content :global(p:has(img) + p > em),
-	.content :global(p:has(img) + p > i) {
+	.content :global(p:has(img) + p > em:only-child),
+	.content :global(p:has(img) + p > i:only-child) {
 		display: block !important;
-		max-width: 400px !important;
+		max-width: 800px !important;
 		margin: 0 auto !important;
 		font-size: 0.85rem;
 		color: #666;
