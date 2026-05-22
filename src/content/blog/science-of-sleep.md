@@ -1,11 +1,13 @@
 ---
-title: "The Science of Sleep"
+title: "Sleep On It: The Engineering Case for Better Rest"
 description: "Adapted from a talk I gave at work about the biological necessity of sleep and how to optimize it for better performance."
 pubDate: 2026-05-20
 tags: ["health", "performance", "sleep"]
 ---
 
-I recently gave a talk at my company, SEP, about the research behind why we sleep and how it impacts our performance as engineers. This post is an adaptation of that talk. You can also find the original version on the [SEP Blog](https://sep.com/blog/sleep-on-it-the-engineering-case-for-better-rest/).
+<div class="callout">
+I recently gave a talk at my company, SEP, about the research behind why we sleep and how it impacts our performance as engineers. This post is an adaptation of that talk. You can also find the original version on the <a href="https://sep.com/blog/sleep-on-it-the-engineering-case-for-better-rest/">SEP Blog</a>.
+</div>
 
 A few months ago I read a book called *Why We Sleep* by Matthew Walker, a neuroscientist who runs the Center for Human Sleep Science at UC Berkeley and has published over a hundred peer-reviewed papers on sleep. I love reading about health and wellness, and the more I got into this one the more I realized how much of it can be applied to the work done at SEP. Walker makes some really big claims in his book, and as an engineer and a naturally curious person I didn’t want to just take his word for it. I went and looked at the actual research behind the claims. I found a lot of it is backed by solid, well replicated science. Admittedly, some of it is overstated, and I’ve tried to flag where I’m confident and where the picture is messier. I am also citing the primary studies at the end of this post so you can go look for yourself.
 
