@@ -1,7 +1,7 @@
 ---
 destination: "Switzerland"
 date: 2025-12-01
-description: "A two-week journey through Switzerland, exploring its efficient trains, stunning landscapes, and cultural nuances with local friends."
+description: ""
 ---
 
 I had wanted to go to Switzerland for years. Most of that desire traces back to one person: my Swiss colleague Andy Schmid. Andy and I are great friends and met at work. We would joke around at the office, drink coffee, swap stories, and I got to practice my German with him every day. The running joke was that I had gone to Portugal and gotten food poisoning, gone to Guatemala and gotten food poisoning again, gone to India and gotten food poisoning a third time, and Andy would just shake his head and say I wouldn't have gotten sick if I'd gone to Switzerland. I kept telling him Switzerland was too expensive for me. He kept telling me to go anyway.
