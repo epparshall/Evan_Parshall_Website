@@ -20,7 +20,7 @@ Walking around Medellín, you see Botero's art everywhere. He makes art of volum
   <figcaption>The famous outdoor slides in Comuna 13.</figcaption>
 </figure>
 
-Plaza Botero downtown is worth a stop. Minorista is a giant indoor market where you can find every kind of Colombian produce, meat, and street food for next to nothing.
+Plaza Botero downtown is worth a stop. Minorista is a giant indoor market where you can find every kind of Colombian produce, meat, and street food for next to nothing. The botanical gardens are also incredibly beautiful and inhabited by giant iguanas. 
 
 <figure>
   <img src="/images/travel/colombia-iguana.jpg" alt="Iguana at the Botanical Gardens" />
