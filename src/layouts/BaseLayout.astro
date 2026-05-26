@@ -15,6 +15,14 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Evan Parshall</title>
+		<script is:inline>
+			document.addEventListener('click', (event) => {
+				const link = event.target.closest('a');
+				if (link && link.href && !link.href.startsWith('mailto:')) {
+					link.target = '_blank';
+				}
+			}, true);
+		</script>
 	</head>
 	<body>
 		<header>
