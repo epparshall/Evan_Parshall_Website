@@ -18,8 +18,14 @@ const { title } = Astro.props;
 		<script is:inline>
 			document.addEventListener('click', (event) => {
 				const link = event.target.closest('a');
-				if (link && link.href && !link.href.startsWith('mailto:')) {
-					link.target = '_blank';
+				if (link && link.href && (link.protocol === 'http:' || link.protocol === 'https:')) {
+					const isExternal = link.origin !== window.location.origin;
+					if (isExternal) {
+						link.target = '_blank';
+						if (!link.rel) {
+							link.rel = 'noopener noreferrer';
+						}
+					}
 				}
 			}, true);
 		</script>
