@@ -50,6 +50,7 @@ const { title } = Astro.props;
 		<footer>
 			<div class="footer-content">
 				<p>&copy; {new Date().getFullYear()} Evan Parshall. Built with Astro.</p>
+				<p><span class="btc-icon">₿</span> 14TtsUitabwmVtehspNEfao9CMLzGK7p83</p>
 				<p><a href="mailto:epparshall@gmail.com">epparshall@gmail.com</a></p>
 			</div>
 		</footer>
@@ -136,6 +137,23 @@ const { title } = Astro.props;
 
 	.footer-content p {
 		margin-bottom: 0;
+	}
+
+	.btc-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.2rem;
+		height: 1.2rem;
+		background-color: #F7931A;
+		color: white;
+		border-radius: 50%;
+		font-size: 0.8rem;
+		font-weight: bold;
+		vertical-align: middle;
+		margin-right: 0.2rem;
+		line-height: 1;
+		padding-bottom: 0.05rem; /* Optical alignment */
 	}
 
 	h1, h2, h3 {
