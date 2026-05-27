@@ -125,6 +125,55 @@ const { Content } = await render(entry);
 		font-weight: 600;
 	}
 
+	/* Table Styles */
+	.content :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 2rem 0;
+		font-size: 1rem;
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+	}
+
+	.content :global(th) {
+		background-color: #f8f9fa;
+		color: #333;
+		font-weight: 600;
+		text-align: left;
+		padding: 1rem;
+		border-bottom: 2px solid #eee;
+	}
+
+	.content :global(td) {
+		padding: 1rem;
+		border-bottom: 1px solid #eee;
+		color: #444;
+	}
+
+	.content :global(tr:last-child td) {
+		border-bottom: none;
+	}
+
+	.content :global(tr:nth-child(even)) {
+		background-color: #fafafa;
+	}
+
+	.content :global(tr:hover) {
+		background-color: #f1f5f9;
+	}
+
+	/* Right-align numeric columns if they contain currency or percentages */
+	.content :global(td:nth-child(2)),
+	.content :global(td:nth-child(4)),
+	.content :global(td:nth-child(5)),
+	.content :global(th:nth-child(2)),
+	.content :global(th:nth-child(4)),
+	.content :global(th:nth-child(5)) {
+		text-align: right;
+	}
+
 	.blog-post footer {
 		margin-top: 4rem;
 		padding-top: 2rem;
