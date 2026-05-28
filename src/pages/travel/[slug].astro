@@ -37,6 +37,12 @@ const { Content } = await render(entry);
 </BaseLayout>
 
 <style>
+	.travel-detail {
+		max-width: 800px;
+		margin: 0 auto;
+		width: 100%;
+	}
+
 	.travel-detail header {
 		margin-bottom: 2rem;
 	}
@@ -44,6 +50,24 @@ const { Content } = await render(entry);
 	.travel-detail h1 {
 		font-size: 3rem;
 		margin-bottom: 0.5rem;
+	}
+
+	@media (max-width: 600px) {
+		.travel-detail h1 {
+			font-size: 2rem;
+		}
+
+		.date {
+			font-size: 1.1rem;
+		}
+
+		.description {
+			font-size: 1rem;
+		}
+
+		.content {
+			font-size: 1.05rem;
+		}
 	}
 
 	.date {
@@ -72,17 +96,25 @@ const { Content } = await render(entry);
 
 	.content :global(figure) {
 		margin: 2rem 0;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
 	.content :global(img) {
-		max-width: 600px;
+		max-width: 100%;
 		height: auto;
 		border-radius: 8px;
 		box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 		margin-bottom: 0.75rem;
+		display: block;
+	}
+
+	@media (min-width: 600px) {
+		.content :global(img) {
+			max-width: 600px;
+		}
 	}
 
 	.content :global(figcaption) {
