@@ -164,7 +164,7 @@ If any of this was interesting to you, the book that gave me the idea for this p
 Thanks for reading! If you want to talk about any of this, reach out! I’m always happy to chat
 
 Evan Parshall  
-epparshall@gmail.com
+epparshall.gcp@gmail.com
 
 ## Appendix: 12 Tips for Better Sleep
 
