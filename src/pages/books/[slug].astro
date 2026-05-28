@@ -55,49 +55,46 @@ const isHonorableMention = honorableMentionsOrder.includes(entry.id);
 </BaseLayout>
 
 <style>
+	.book-detail {
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+
 	.book-detail header {
-		margin-bottom: 2rem;
+		margin-bottom: 4rem;
 	}
 
 	.rank {
-		font-size: 1.5rem;
-		font-weight: bold;
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
 		color: var(--color-accent);
-		margin-bottom: 0.5rem;
-	}
-
-	@media (max-width: 600px) {
-		.rank {
-			font-size: 1.25rem;
-		}
+		margin-bottom: 1.5rem;
+		display: inline-block;
+		padding: 0.25rem 0.75rem;
+		background: var(--color-accent-soft);
+		border-radius: var(--radius);
 	}
 
 	.header-content {
 		display: flex;
-		gap: 2rem;
+		gap: 3rem;
 		align-items: flex-start;
 		margin-top: 1rem;
 	}
 
-	@media (max-width: 600px) {
-		.header-content {
-			flex-direction: column;
-			align-items: center;
-			text-align: center;
-			gap: 1.5rem;
-		}
-	}
-
 	.book-cover {
-		width: 150px;
+		width: 200px;
 		flex-shrink: 0;
 	}
 
 	.book-cover img {
 		width: 100%;
 		height: auto;
-		border-radius: 8px;
-		box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-md);
+		border: 1px solid var(--color-border);
 	}
 
 	.book-titles {
@@ -105,54 +102,89 @@ const isHonorableMention = honorableMentionsOrder.includes(entry.id);
 	}
 
 	.book-detail h1 {
-		font-size: 3rem;
-		margin-bottom: 0.5rem;
-	}
-
-	@media (max-width: 600px) {
-		.book-detail h1 {
-			font-size: 1.75rem;
-		}
+		font-size: clamp(2.35rem, 5vw, 3.75rem);
+		margin-bottom: 0.75rem;
+		letter-spacing: 0;
+		line-height: 1.1;
 	}
 
 	.author {
 		font-size: 1.5rem;
-		font-style: italic;
-		color: #666;
-		margin-bottom: 1rem;
-	}
-
-	@media (max-width: 600px) {
-		.author {
-			font-size: 1.2rem;
-		}
-
-		.content {
-			font-size: 1.05rem;
-		}
+		color: var(--color-text-light);
+		margin-bottom: 1.5rem;
+		font-weight: 400;
 	}
 
 	.meta {
-		font-size: 1rem;
-		color: #888;
-		text-transform: uppercase;
-		margin-bottom: 2rem;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.rating {
+		font-weight: 700;
+		color: var(--color-text);
+		font-size: 0.95rem;
+		background: var(--color-surface);
+		padding: 0.4rem 0.8rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--color-border);
 	}
 
 	hr {
 		border: 0;
-		border-top: 1px solid #eee;
-		margin: 2rem 0;
+		border-top: 1px solid var(--color-border);
+		margin: 4rem 0;
 	}
 
 	.content {
 		line-height: 1.8;
-		font-size: 1.15rem;
+		font-size: 1.25rem;
+		color: var(--color-text);
 	}
 
 	.book-detail footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid #eee;
+		margin-top: 6rem;
+		padding-top: 3rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.book-detail footer a {
+		font-weight: 600;
+		color: var(--color-text-light);
+		transition: color 0.2s;
+	}
+
+	.book-detail footer a:hover {
+		color: var(--color-accent);
+	}
+
+	@media (max-width: 600px) {
+		.book-detail header {
+			text-align: center;
+			margin-bottom: 3rem;
+		}
+
+		.header-content {
+			flex-direction: column;
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.book-detail h1 {
+			font-size: 2.25rem;
+		}
+
+		.author {
+			font-size: 1.25rem;
+		}
+
+		.meta {
+			justify-content: center;
+		}
+
+		.content {
+			font-size: 1.1rem;
+		}
 	}
 </style>

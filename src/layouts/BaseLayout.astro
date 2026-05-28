@@ -11,7 +11,7 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Evan Parshall - Software Engineer Portfolio" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Evan Parshall</title>
@@ -31,7 +31,7 @@ const { title } = Astro.props;
 		</script>
 	</head>
 	<body>
-		<header>
+		<header class="site-header">
 			<nav>
 				<div class="logo">
 					<a href="/">Evan Parshall</a>
@@ -47,7 +47,7 @@ const { title } = Astro.props;
 		<main>
 			<slot />
 		</main>
-		<footer>
+		<footer class="site-footer">
 			<div class="footer-content">
 				<p class="copyright">&copy; {new Date().getFullYear()} Evan Parshall. Built with Astro.</p>
 				<p><span class="btc-icon">₿</span> 14TtsUitabwmVtehspNEfao9CMLzGK7p83</p>
@@ -59,11 +59,23 @@ const { title } = Astro.props;
 
 <style is:global>
 	:root {
-		--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-		--color-bg: #ffffff;
-		--color-text: #1a1a1a;
-		--color-accent: #0066cc;
-		--max-width: 1000px;
+		--font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		--font-serif: 'Georgia', serif;
+		--color-bg: #f7f8f5;
+		--color-surface: #ffffff;
+		--color-surface-muted: #eef3ef;
+		--color-text: #202724;
+		--color-text-light: #617168;
+		--color-accent: #2f6f5e;
+		--color-accent-strong: #1f5648;
+		--color-accent-warm: #a65645;
+		--color-accent-soft: rgba(47, 111, 94, 0.12);
+		--color-border: #dce4df;
+		--max-width: 980px;
+		--content-width: 760px;
+		--radius: 8px;
+		--shadow-sm: 0 1px 2px rgba(32, 39, 36, 0.05);
+		--shadow-md: 0 14px 35px rgba(32, 39, 36, 0.1);
 	}
 
 	* {
@@ -74,85 +86,142 @@ const { title } = Astro.props;
 
 	body {
 		font-family: var(--font-sans);
-		line-height: 1.6;
+		line-height: 1.7;
 		color: var(--color-text);
-		background-color: var(--color-bg);
-		padding: 2rem 1rem;
-		max-width: var(--max-width);
-		margin: 0 auto;
+		background:
+			linear-gradient(180deg, rgba(238, 243, 239, 0.8) 0, rgba(247, 248, 245, 0) 18rem),
+			var(--color-bg);
+		min-height: 100vh;
+		-webkit-font-smoothing: antialiased;
 	}
 
 	@media (max-width: 600px) {
 		body {
-			padding: 1rem;
+			line-height: 1.65;
 		}
 	}
 
-	header {
-		margin-bottom: 3rem;
+	.site-header {
+		max-width: var(--max-width);
+		margin: 0 auto 5rem;
+		padding: 2.5rem 1.5rem 0;
 	}
 
 	@media (max-width: 600px) {
-		header {
+		.site-header {
 			margin-bottom: 2rem;
+			padding: 1rem 1rem 0;
 		}
 	}
 
-	nav {
+	.site-header nav {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		gap: 1.5rem;
+		padding-bottom: 1.25rem;
+		border-bottom: 1px solid rgba(220, 228, 223, 0.85);
 	}
 
 	@media (max-width: 600px) {
-		nav {
-			flex-direction: column;
-			gap: 1.5rem;
-			text-align: center;
+		.site-header nav {
+			align-items: flex-start;
+			gap: 0.75rem;
+			padding-bottom: 0.85rem;
 		}
 	}
 
 	.logo a {
-		font-size: 1.5rem;
-		font-weight: bold;
+		font-size: 1.25rem;
+		font-weight: 800;
 		text-decoration: none;
 		color: var(--color-text);
+		letter-spacing: 0;
 	}
 
 	.nav-links {
 		display: flex;
 		list-style: none;
-		gap: 1.5rem;
+		gap: 0.5rem;
+		padding-left: 0;
+		margin-bottom: 0;
 	}
 
 	@media (max-width: 600px) {
 		.nav-links {
-			gap: 1rem;
-			flex-wrap: wrap;
-			justify-content: center;
+			width: 100%;
+			gap: 0.15rem;
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+		}
+
+		.nav-links::-webkit-scrollbar {
+			display: none;
 		}
 	}
 
 	.nav-links a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.25rem;
+		padding: 0.35rem 0.7rem;
+		border-radius: var(--radius);
 		text-decoration: none;
-		color: var(--color-text);
-		transition: color 0.2s;
+		color: var(--color-text-light);
+		font-size: 0.95rem;
+		font-weight: 650;
+		transition: background-color 0.2s ease, color 0.2s ease;
 	}
 
 	.nav-links a:hover {
-		color: var(--color-accent);
+		background: var(--color-accent-soft);
+		color: var(--color-accent-strong);
+		opacity: 1;
+	}
+
+	@media (max-width: 600px) {
+		.logo a {
+			font-size: 1.05rem;
+		}
+
+		.nav-links a {
+			min-height: 2rem;
+			padding: 0.25rem 0.45rem;
+			font-size: 0.82rem;
+			white-space: nowrap;
+		}
+
+		main {
+			padding: 0 1rem;
+		}
 	}
 
 	main {
 		min-height: 60vh;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 0 1.5rem;
 	}
 
-	footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid #eee;
+	.site-footer {
+		max-width: var(--max-width);
+		margin-top: 8rem;
+		margin-left: auto;
+		margin-right: auto;
+		padding: 3rem 1.5rem 3.5rem;
+		border-top: 1px solid var(--color-border);
 		font-size: 0.9rem;
-		color: #666;
+		color: var(--color-text-light);
+	}
+
+	@media (max-width: 600px) {
+		.site-footer {
+			margin-top: 5rem;
+			padding-bottom: 2.5rem;
+		}
 	}
 
 	.footer-content {
@@ -160,13 +229,13 @@ const { title } = Astro.props;
 		justify-content: space-between;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 1rem;
+		gap: 1rem 1.5rem;
 	}
 
 	@media (max-width: 600px) {
 		.footer-content {
-			flex-direction: column;
-			text-align: center;
+			align-items: flex-start;
+			text-align: left;
 		}
 	}
 
@@ -178,38 +247,67 @@ const { title } = Astro.props;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 1.2rem;
-		height: 1.2rem;
+		width: 1.1rem;
+		height: 1.1rem;
 		background-color: #F7931A;
 		color: white;
 		border-radius: 50%;
-		font-size: 0.8rem;
+		font-size: 0.75rem;
 		font-weight: bold;
 		vertical-align: middle;
-		margin-right: 0.2rem;
+		margin-right: 0.25rem;
 		line-height: 1;
-		padding-bottom: 0.05rem; /* Optical alignment */
+		padding-bottom: 0.05rem;
 	}
 
 	h1, h2, h3 {
 		margin-bottom: 1.5rem;
-		line-height: 1.2;
+		line-height: 1.25;
+		color: var(--color-text);
+		letter-spacing: 0;
+		font-weight: 700;
+	}
+
+	h1 { font-size: clamp(2.35rem, 5vw, 3.75rem); }
+	h2 { font-size: 2rem; margin-top: 3rem; }
+	h3 { font-size: 1.5rem; margin-top: 2rem; }
+
+	@media (max-width: 600px) {
+		h2 { font-size: 1.75rem; }
 	}
 
 	p {
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
 	}
 
 	ul, ol {
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
 		padding-left: 1.5rem;
 	}
 
 	li {
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.75rem;
 	}
 
 	a {
 		color: var(--color-accent);
+		text-decoration: none;
+		transition: color 0.2s ease, opacity 0.2s ease;
+	}
+
+	a:hover {
+		color: var(--color-accent-strong);
+		opacity: 0.9;
+	}
+
+	/* Utility Classes */
+	.blog-post, .travel-detail, .book-detail {
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+
+	::selection {
+		background: var(--color-accent-soft);
+		color: var(--color-text);
 	}
 </style>

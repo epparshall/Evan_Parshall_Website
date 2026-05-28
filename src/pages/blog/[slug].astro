@@ -38,51 +38,56 @@ const { Content } = await render(entry);
 
 <style>
 	.blog-post h1 {
-		margin-bottom: 0.5rem;
-		font-size: 2.5rem;
+		margin-bottom: 0.75rem;
+		font-size: clamp(2.35rem, 5vw, 3.75rem);
+		letter-spacing: 0;
+		line-height: 1.1;
 	}
 
 	@media (max-width: 600px) {
 		.blog-post h1 {
-			font-size: 1.75rem;
+			font-size: 2.25rem;
 		}
 
 		.content {
-			font-size: 1.05rem;
+			font-size: 1.1rem;
 		}
 	}
 
 	.blog-post time {
 		display: block;
-		font-size: 1rem;
-		color: #666;
-		margin-bottom: 2rem;
+		font-size: 0.9rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-text-light);
+		margin-bottom: 3rem;
 	}
 
 	.content {
 		line-height: 1.8;
-		font-size: 1.15rem;
+		font-size: 1.25rem;
+		color: var(--color-text);
 	}
 
 	.content p {
-		margin-bottom: 1.5rem;
+		margin-bottom: 2rem;
 	}
 
 	.content :global(img) {
 		display: block !important;
-		margin: 3rem auto !important;
-		max-width: 100% !important; /* Allow diagrams to fill the container */
+		margin: 4rem auto !important;
+		max-width: 100% !important;
 		width: auto !important;
 		height: auto !important;
-		border-radius: 8px;
-		box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-md);
 	}
 
-	/* Target book covers specifically to keep them small but readable */
+	/* Target book covers specifically */
 	.content :global(img[alt*="Cover"]),
 	.content :global(img[src*="walker_book"]) {
-		max-width: 280px !important; /* Increased from 220px */
-		box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+		max-width: 320px !important;
 	}
 
 	.content :global(p:has(img)) {
@@ -91,46 +96,45 @@ const { Content } = await render(entry);
 	}
 
 	.content :global(p) {
-		margin-bottom: 1.5rem;
+		margin-bottom: 2rem;
 		overflow-wrap: break-word;
 		word-break: break-word;
-		text-align: left; /* Explicitly ensure normal text is left aligned */
+		text-align: left;
 	}
 
-	/* Target only paragraphs that immediately follow an image AND contain ONLY emphasis (captions) */
+	/* Captions */
 	.content :global(p:has(img) + p:has(> em:only-child)),
 	.content :global(p:has(img) + p:has(> i:only-child)) {
 		text-align: center !important;
-		margin-top: -1rem !important;
-		margin-bottom: 2.5rem !important;
+		margin-top: -3rem !important;
+		margin-bottom: 4rem !important;
 	}
 
 	.content :global(p:has(img) + p > em:only-child),
 	.content :global(p:has(img) + p > i:only-child) {
 		display: block !important;
-		max-width: 800px !important;
+		max-width: 600px !important;
 		margin: 0 auto !important;
-		font-size: 0.85rem;
-		color: #666;
-		line-height: 1.4;
+		font-size: 0.9rem;
+		color: var(--color-text-light);
+		line-height: 1.5;
 		font-style: italic;
 	}
 
 	.content :global(.callout) {
-		background-color: #f0f7ff;
-		border-left: 5px solid #0066cc;
-		padding: 1.5rem 2rem;
-		margin: 2rem 0 3rem 0;
-		border-radius: 4px 12px 12px 4px;
-		font-size: 1.1rem;
+		background-color: var(--color-accent-soft);
+		border-left: 4px solid var(--color-accent);
+		padding: 2rem;
+		margin: 3rem 0;
+		border-radius: 0 var(--radius) var(--radius) 0;
+		font-size: 1.15rem;
 		line-height: 1.6;
 		font-style: italic;
-		color: #2c3e50;
-		box-shadow: 0 2px 10px rgba(0,102,204,0.05);
+		color: var(--color-text);
 	}
 
 	.content :global(.callout a) {
-		color: #0066cc;
+		color: var(--color-accent);
 		text-decoration: underline;
 		font-weight: 600;
 	}
@@ -139,12 +143,12 @@ const { Content } = await render(entry);
 	.content :global(table) {
 		width: 100%;
 		border-collapse: collapse;
-		margin: 2rem 0;
+		margin: 3rem 0;
 		font-size: 1rem;
-		border: 1px solid #e0e0e0;
-		border-radius: 8px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
 		overflow: hidden;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+		box-shadow: var(--shadow-sm);
 		display: block;
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
@@ -162,18 +166,18 @@ const { Content } = await render(entry);
 	}
 
 	.content :global(th) {
-		background-color: #f8f9fa;
-		color: #333;
-		font-weight: 600;
+		background-color: var(--color-surface-muted);
+		color: var(--color-text);
+		font-weight: 700;
 		text-align: left;
-		padding: 1rem;
-		border-bottom: 2px solid #eee;
+		padding: 1.25rem;
+		border-bottom: 2px solid var(--color-border);
 	}
 
 	.content :global(td) {
-		padding: 1rem;
-		border-bottom: 1px solid #eee;
-		color: #444;
+		padding: 1.25rem;
+		border-bottom: 1px solid var(--color-border);
+		color: var(--color-text-light);
 	}
 
 	.content :global(tr:last-child td) {
@@ -181,14 +185,13 @@ const { Content } = await render(entry);
 	}
 
 	.content :global(tr:nth-child(even)) {
-		background-color: #fafafa;
+		background-color: rgba(238, 243, 239, 0.45);
 	}
 
 	.content :global(tr:hover) {
-		background-color: #f1f5f9;
+		background-color: var(--color-accent-soft);
 	}
 
-	/* Right-align numeric columns if they contain currency or percentages */
 	.content :global(td:nth-child(2)),
 	.content :global(td:nth-child(4)),
 	.content :global(td:nth-child(5)),
@@ -199,8 +202,18 @@ const { Content } = await render(entry);
 	}
 
 	.blog-post footer {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 1px solid #eee;
+		margin-top: 6rem;
+		padding-top: 3rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.blog-post footer a {
+		font-weight: 600;
+		color: var(--color-text-light);
+		transition: color 0.2s;
+	}
+
+	.blog-post footer a:hover {
+		color: var(--color-accent);
 	}
 </style>

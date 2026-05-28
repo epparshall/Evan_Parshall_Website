@@ -35,19 +35,20 @@ const { Content } = await render(entry);
 	}
 
 	.resource-detail h1 {
-		font-size: 3rem;
+		font-size: clamp(2.35rem, 5vw, 3.5rem);
 		margin-bottom: 0.5rem;
+		line-height: 1.1;
 	}
 
 	.description {
 		font-size: 1.25rem;
-		color: #666;
+		color: var(--color-text-light);
 		font-style: italic;
 	}
 
 	hr {
 		border: 0;
-		border-top: 1px solid #eee;
+		border-top: 1px solid var(--color-border);
 		margin: 2rem 0;
 	}
 
@@ -59,6 +60,13 @@ const { Content } = await render(entry);
 	.resource-detail footer {
 		margin-top: 4rem;
 		padding-top: 2rem;
-		border-top: 1px solid #eee;
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (max-width: 600px) {
+		.description,
+		.content {
+			font-size: 1.1rem;
+		}
 	}
 </style>

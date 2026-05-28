@@ -21,20 +21,22 @@ const honorableMentions = honorableMentionsOrder
 	.filter(Boolean);
 
 // Get any other books that aren't in either list
-const otherBooks = books.filter(book => 
+const otherBooks = books.filter(book =>
 	!favoriteOrder.includes(book.id) && !honorableMentionsOrder.includes(book.id)
 );
 ---
 
 <BaseLayout title="Books">
-	<h1>Books</h1>
-	<p>We live only one life, but through books we borrow fragments of thousands more. Every truly great book leaves a small graveyard of old beliefs behind it.</p>
-	
+	<header class="page-header">
+		<h1>Books</h1>
+		<p class="subtitle">We live only one life, but through books we borrow fragments of thousands more. Every truly great book leaves a small graveyard of old beliefs behind it.</p>
+	</header>
+
 	<section class="book-section">
-		<h2>Top Favorites</h2>
-		<ul class="book-list">
+		<h2 class="section-title">Top Favorites</h2>
+		<div class="book-list">
 			{rankedBooks.map((book, index) => (
-				<li class="book-item">
+				<article class="book-item">
 					<div class="rank">#{index + 1}</div>
 					{book.data.image && (
 						<div class="book-cover">
@@ -54,17 +56,17 @@ const otherBooks = books.filter(book =>
 							)}
 						</div>
 					</div>
-				</li>
+				</article>
 			))}
-		</ul>
+		</div>
 	</section>
 
 	{honorableMentions.length > 0 && (
 		<section class="book-section">
-			<h2>Honorable Mentions</h2>
-			<ul class="book-list">
+			<h2 class="section-title">Honorable Mentions</h2>
+			<div class="book-list">
 				{honorableMentions.map((book) => (
-					<li class="book-item">
+					<article class="book-item">
 						<div class="rank">HM</div>
 						{book.data.image && (
 							<div class="book-cover">
@@ -79,18 +81,18 @@ const otherBooks = books.filter(book =>
 							</a>
 							<p class="author">by {book.data.author}</p>
 						</div>
-					</li>
+					</article>
 				))}
-			</ul>
+			</div>
 		</section>
 	)}
 
 	{otherBooks.length > 0 && (
 		<section class="book-section">
-			<h2>Other Reads</h2>
-			<ul class="book-list">
+			<h2 class="section-title">Other Reads</h2>
+			<div class="book-list">
 				{otherBooks.map((book) => (
-					<li class="book-item">
+					<article class="book-item">
 						<div class="rank">-</div>
 						<div class="book-info">
 							<a href={`/books/${book.id}`}>
@@ -98,61 +100,107 @@ const otherBooks = books.filter(book =>
 							</a>
 							<p class="author">by {book.data.author}</p>
 						</div>
-					</li>
+					</article>
 				))}
-			</ul>
+			</div>
 		</section>
 	)}
 </BaseLayout>
 
 <style>
-	.book-section {
-		margin-top: 3rem;
+	.page-header {
+		margin-bottom: 4rem;
 	}
 
-	.book-section h2 {
-		border-bottom: 2px solid var(--color-accent);
-		display: inline-block;
+	.page-header h1 {
+		font-size: clamp(2.75rem, 6vw, 4rem);
+		margin-bottom: 1.5rem;
+		letter-spacing: 0;
+		line-height: 1.08;
+	}
+
+	.subtitle {
+		font-size: 1.25rem;
+		color: var(--color-text-light);
+		max-width: 60ch;
+		line-height: 1.6;
+	}
+
+	.book-section {
+		margin-top: 5rem;
+	}
+
+	.section-title {
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-text-light);
 		margin-bottom: 2rem;
+		border-bottom: 1px solid var(--color-border);
+		padding-bottom: 0.5rem;
+		display: inline-block;
 	}
 
 	.book-list {
-		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	}
 
 	.book-item {
 		display: flex;
 		gap: 1.5rem;
-		align-items: flex-start;
-		margin-bottom: 2rem;
-		padding-bottom: 1.5rem;
-		border-bottom: 1px solid #eee;
+		align-items: center;
+		padding: 1.35rem;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+	}
+
+	.book-item:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-md);
+		border-color: rgba(47, 111, 94, 0.45);
+		background: var(--color-surface);
 	}
 
 	.rank {
-		font-size: 1.25rem;
-		font-weight: bold;
+		font-size: 1rem;
+		font-weight: 700;
 		color: var(--color-accent);
-		min-width: 3rem;
-		padding-top: 0.25rem;
+		min-width: 2.5rem;
+		text-align: center;
+		padding: 0.25rem 0.5rem;
+		background: var(--color-accent-soft);
+		border-radius: var(--radius);
 	}
 
 	.book-cover {
-		width: 80px;
+		width: 100px;
 		flex-shrink: 0;
 	}
 
 	.book-cover img {
 		width: 100%;
 		height: auto;
-		border-radius: 4px;
-		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-sm);
 		display: block;
+		border: 1px solid var(--color-border);
+	}
+
+	.book-info {
+		flex: 1;
 	}
 
 	.book-info h3 {
-		margin-bottom: 0.1rem;
+		margin-bottom: 0.25rem;
 		font-size: 1.5rem;
+		color: var(--color-text);
+		margin-top: 0;
 	}
 
 	.book-info a {
@@ -160,19 +208,61 @@ const otherBooks = books.filter(book =>
 		color: inherit;
 	}
 
-	.book-info a:hover h3 {
-		color: var(--color-accent);
-	}
-
 	.author {
-		font-style: italic;
-		color: #666;
-		margin-bottom: 0.5rem;
+		color: var(--color-text-light);
+		margin-bottom: 0.75rem;
+		font-size: 1.1rem;
 	}
 
 	.meta {
 		font-size: 0.85rem;
-		color: #888;
-		text-transform: uppercase;
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	@media (max-width: 600px) {
+		.page-header {
+			margin-bottom: 1.75rem;
+			text-align: left;
+		}
+
+		.page-header h1 {
+			font-size: 2.3rem;
+			margin-bottom: 0.75rem;
+		}
+
+		.subtitle {
+			font-size: 1rem;
+			line-height: 1.45;
+			margin-bottom: 0;
+		}
+
+		.book-section {
+			margin-top: 2.25rem;
+		}
+
+		.section-title {
+			margin-bottom: 1rem;
+		}
+
+		.book-item {
+			padding: 1rem;
+			gap: 1rem;
+			align-items: flex-start;
+			text-align: left;
+		}
+
+		.book-cover {
+			width: 82px;
+		}
+
+		.book-info h3 {
+			font-size: 1.15rem;
+		}
+
+		.author {
+			font-size: 1rem;
+			margin-bottom: 0.5rem;
+		}
 	}
 </style>
