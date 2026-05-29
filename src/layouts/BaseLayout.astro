@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const siteUrl = 'https://evan-parshall.pages.dev';
+const siteUrl = 'https://epparshall.github.io';
 const pageTitle = title === 'Home' ? 'Evan Parshall | Software Engineer' : `${title} | Evan Parshall`;
 const description = 'Personal website of Evan Parshall, a software engineer in Westfield, Indiana, featuring writing on technology, books, travel, publications, and professional work.';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
