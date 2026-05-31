@@ -36,6 +36,7 @@ const ogImageUrl = new URL('/og-image.png', siteUrl).toString();
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 		<title>{pageTitle}</title>
+		<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d460b89e55754f0dabee6beb4ff217b2"}'></script><!-- End Cloudflare Web Analytics -->
 		<script is:inline>
 			document.addEventListener('click', (event) => {
 				const link = event.target.closest('a');
