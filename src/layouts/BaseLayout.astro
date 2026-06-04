@@ -37,6 +37,24 @@ const ogImageUrl = new URL('/og-image.png', siteUrl).toString();
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 		<title>{pageTitle}</title>
+		<script type="application/ld+json">
+		{
+		  "@context": "https://schema.org",
+		  "@type": "Person",
+		  "name": "Evan Parshall",
+		  "url": "https://epparshall.github.io",
+		  "sameAs": [
+			"https://www.linkedin.com/in/evanparshall/",
+			"https://github.com/epparshall"
+		  ],
+		  "jobTitle": "Software Engineer",
+		  "address": {
+			"@type": "PostalAddress",
+			"addressLocality": "Westfield",
+			"addressRegion": "IN"
+		  }
+		}
+		</script>
 		<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d460b89e55754f0dabee6beb4ff217b2"}'></script><!-- End Cloudflare Web Analytics -->
 		<script is:inline>
 			document.addEventListener('click', (event) => {
