@@ -4,7 +4,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const posts = await getCollection('blog', ({ data }) => {
 	return data.draft !== true;
-});posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+});
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const allTags = Array.from(
+	new Set(posts.flatMap((post) => post.data.tags || []))
+).sort();
 ---
 
 <BaseLayout title="Blog">
@@ -13,9 +18,42 @@ const posts = await getCollection('blog', ({ data }) => {
 		<p class="subtitle">Writing on technology, health and wellness, finance, travel, politics, and ideas worth sharing.</p>
 	</header>
 
-	<div class="posts-list">
+	<div class="blog-filters">
+		<input
+			type="search"
+			id="search-input"
+			placeholder="Search posts by title or description..."
+			autocomplete="off"
+		/>
+
+		{allTags.length > 0 && (
+			<div class="multi-select">
+				<button type="button" id="tag-trigger" class="multi-select-trigger">
+					<span id="trigger-text">Filter by tags</span>
+					<span class="chevron" aria-hidden="true">▾</span>
+				</button>
+				<div id="tag-panel" class="tag-panel hidden">
+					{allTags.map((tag) => (
+						<label class="tag-option">
+							<input type="checkbox" value={tag} />
+							<span>{tag}</span>
+						</label>
+					))}
+				</div>
+			</div>
+		)}
+
+		<button type="button" id="clear-filters" class="clear-btn">Clear</button>
+	</div>
+
+	<div class="posts-list" id="posts-list">
 		{posts.map((post) => (
-			<article class="post-card">
+			<article
+				class="post-card"
+				data-title={post.data.title.toLowerCase()}
+				data-description={post.data.description.toLowerCase()}
+				data-tags={(post.data.tags || []).join(',')}
+			>
 				<a href={`/blog/${post.id}`}>
 					<time datetime={post.data.pubDate.toISOString()}>
 						{post.data.pubDate.toLocaleDateString('en-US', {
@@ -38,11 +76,172 @@ const posts = await getCollection('blog', ({ data }) => {
 			</article>
 		))}
 	</div>
+
+	<p id="no-results" class="no-results" style="display: none;">
+		No posts match your search or selected tags.
+	</p>
+
+	<script>
+		(function () {
+			const searchInput = document.getElementById('search-input');
+			const postsList = document.getElementById('posts-list');
+			const noResults = document.getElementById('no-results');
+			const clearBtn = document.getElementById('clear-filters');
+			const trigger = document.getElementById('tag-trigger');
+			const panel = document.getElementById('tag-panel');
+			const multiSelect = trigger ? trigger.closest('.multi-select') : null;
+			const checkboxes = panel ? panel.querySelectorAll('input[type="checkbox"]') : [];
+
+			if (!searchInput || !postsList || !trigger || !panel) return;
+
+			const cards = postsList.querySelectorAll('.post-card');
+			let activeTags = new Set();
+
+			function syncCheckboxes() {
+				checkboxes.forEach(cb => {
+					cb.checked = activeTags.has(cb.value);
+				});
+			}
+
+			function updateTriggerText() {
+				const count = activeTags.size;
+				const textEl = document.getElementById('trigger-text');
+				if (!textEl) return;
+
+				if (count === 0) {
+					textEl.textContent = 'Filter by tags';
+					if (multiSelect) multiSelect.classList.remove('has-selection');
+				} else if (count === 1) {
+					textEl.textContent = Array.from(activeTags)[0];
+					if (multiSelect) multiSelect.classList.add('has-selection');
+				} else {
+					const tags = Array.from(activeTags);
+					if (count === 2) {
+						textEl.textContent = `${tags[0]}, ${tags[1]}`;
+					} else {
+						textEl.textContent = `${tags[0]}, ${tags[1]} +${count - 2}`;
+					}
+					if (multiSelect) multiSelect.classList.add('has-selection');
+				}
+			}
+
+			function updateAll() {
+				updateTriggerText();
+				filterPosts();
+			}
+
+			function filterPosts() {
+				const term = searchInput.value.toLowerCase().trim();
+				let visibleCount = 0;
+
+				cards.forEach((card) => {
+					const title = card.dataset.title || '';
+					const description = card.dataset.description || '';
+					const cardTagsStr = card.dataset.tags || '';
+					const cardTags = cardTagsStr ? cardTagsStr.split(',') : [];
+
+					const matchesSearch =
+						!term ||
+						title.includes(term) ||
+						description.includes(term) ||
+						cardTags.some((t) => t.toLowerCase().includes(term));
+
+					const matchesTags =
+						activeTags.size === 0 ||
+						Array.from(activeTags).some((t) => cardTags.includes(t));
+
+					if (matchesSearch && matchesTags) {
+						card.style.display = '';
+						visibleCount++;
+					} else {
+						card.style.display = 'none';
+					}
+				});
+
+				if (noResults) {
+					noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+				}
+
+				// Update clear button state
+				if (clearBtn) {
+					const hasFilters = searchInput.value.trim() !== '' || activeTags.size > 0;
+					clearBtn.style.opacity = hasFilters ? '1' : '0.55';
+				}
+			}
+
+			function setTagActive(tag, isActive) {
+				if (isActive) {
+					activeTags.add(tag);
+				} else {
+					activeTags.delete(tag);
+				}
+				updateAll();
+			}
+
+			// Search
+			searchInput.addEventListener('input', () => {
+				filterPosts();
+				if (clearBtn) {
+					const hasFilters = searchInput.value.trim() !== '' || activeTags.size > 0;
+					clearBtn.style.opacity = hasFilters ? '1' : '0.55';
+				}
+			});
+
+			// Checkbox changes in dropdown
+			checkboxes.forEach((cb) => {
+				cb.addEventListener('change', () => {
+					setTagActive(cb.value, cb.checked);
+				});
+			});
+
+			// Dropdown open / close
+			function openPanel() {
+				syncCheckboxes();
+				panel.classList.remove('hidden');
+				if (multiSelect) multiSelect.classList.add('open');
+			}
+
+			function closePanel() {
+				panel.classList.add('hidden');
+				if (multiSelect) multiSelect.classList.remove('open');
+			}
+
+			trigger.addEventListener('click', (e) => {
+				e.stopPropagation();
+				if (panel.classList.contains('hidden')) {
+					openPanel();
+				} else {
+					closePanel();
+				}
+			});
+
+			// Close when clicking outside
+			document.addEventListener('click', (e) => {
+				if (multiSelect && !multiSelect.contains(e.target)) {
+					closePanel();
+				}
+			});
+
+			// Clear button
+			if (clearBtn) {
+				clearBtn.addEventListener('click', () => {
+					searchInput.value = '';
+					activeTags.clear();
+					checkboxes.forEach(cb => { cb.checked = false; });
+					closePanel();
+					updateAll();
+				});
+			}
+
+			// Initial
+			updateAll();
+		})();
+	</script>
 </BaseLayout>
 
 <style>
 	.page-header {
-		margin-bottom: 4rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.page-header h1 {
@@ -55,7 +254,8 @@ const posts = await getCollection('blog', ({ data }) => {
 	.subtitle {
 		font-size: 1.25rem;
 		color: var(--color-text-light);
-		max-width: 50ch;
+		max-width: 72ch;
+		line-height: 1.4;
 	}
 
 	.posts-list {
@@ -134,9 +334,155 @@ const posts = await getCollection('blog', ({ data }) => {
 		border: 1px solid var(--color-border);
 	}
 
+	.blog-filters {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		margin-bottom: 1.75rem;
+	}
+
+	#search-input {
+		flex: 1 1 0;
+		min-width: 180px;
+		padding: 0.6rem 0.95rem;
+		font-size: 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background-color: var(--color-surface);
+		color: var(--color-text);
+		outline: none;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+		height: 42px;
+	}
+
+	#search-input:focus {
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px var(--color-accent-soft);
+	}
+
+	/* Multi-select dropdown */
+	.multi-select {
+		position: relative;
+		flex: 0 0 210px;
+		min-width: 150px;
+	}
+
+	.multi-select-trigger {
+		width: 100%;
+		height: 42px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 0.75rem;
+		font-size: 0.9rem;
+		font-weight: 500;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background-color: var(--color-surface);
+		color: var(--color-text-light);
+		cursor: pointer;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.multi-select-trigger:hover {
+		border-color: var(--color-accent);
+	}
+
+	.multi-select-trigger:focus-visible {
+		outline: none;
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px var(--color-accent-soft);
+	}
+
+	.multi-select.has-selection .multi-select-trigger {
+		color: var(--color-text);
+		border-color: var(--color-accent);
+	}
+
+	.multi-select-trigger .chevron {
+		font-size: 0.75em;
+		margin-left: 0.4rem;
+		flex-shrink: 0;
+		transition: transform 0.2s ease;
+	}
+
+	.multi-select.open .chevron {
+		transform: rotate(180deg);
+	}
+
+	.tag-panel {
+		position: absolute;
+		top: calc(100% + 4px);
+		left: 0;
+		right: 0;
+		z-index: 20;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-md);
+		padding: 0.25rem 0;
+		max-height: 220px;
+		overflow-y: auto;
+	}
+
+	.tag-panel.hidden {
+		display: none;
+	}
+
+	.tag-option {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.35rem 0.75rem;
+		font-size: 0.9rem;
+		cursor: pointer;
+		color: var(--color-text);
+	}
+
+	.tag-option:hover {
+		background: var(--color-accent-soft);
+	}
+
+	.tag-option input[type="checkbox"] {
+		width: 14px;
+		height: 14px;
+		accent-color: var(--color-accent);
+		margin: 0;
+		flex-shrink: 0;
+	}
+
+	.clear-btn {
+		height: 42px;
+		font-size: 0.8rem;
+		font-weight: 600;
+		padding: 0 0.85rem;
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		color: var(--color-text-light);
+		cursor: pointer;
+		white-space: nowrap;
+		transition: all 0.15s ease;
+		flex-shrink: 0;
+	}
+
+	.clear-btn:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.no-results {
+		color: var(--color-text-light);
+		font-style: italic;
+		padding: 1rem 0;
+	}
+
 	@media (max-width: 600px) {
 		.page-header {
-			margin-bottom: 1.75rem;
+			margin-bottom: 1rem;
 			text-align: left;
 		}
 
@@ -178,6 +524,33 @@ const posts = await getCollection('blog', ({ data }) => {
 		.tag {
 			font-size: 0.65rem;
 			padding: 0.1rem 0.45rem;
+		}
+
+		#search-input {
+			font-size: 0.95rem;
+			padding: 0.5rem 0.85rem;
+			height: 38px;
+		}
+
+		.multi-select {
+			flex: 0 0 170px;
+		}
+
+		.multi-select-trigger {
+			font-size: 0.85rem;
+			padding: 0 0.6rem;
+			height: 38px;
+		}
+
+		.tag-option {
+			font-size: 0.85rem;
+			padding: 0.3rem 0.6rem;
+		}
+
+		.clear-btn {
+			font-size: 0.75rem;
+			padding: 0 0.7rem;
+			height: 38px;
 		}
 	}
 </style>
