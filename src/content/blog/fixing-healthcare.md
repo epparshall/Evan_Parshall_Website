@@ -2,7 +2,7 @@
 title: "Fixing Healthcare in the United States"
 description: "Thoughts on policy, incentives, and how we can move toward a more effective healthcare system."
 pubDate: 2026-05-09
-tags: ["healthcare", "policy", "medicine"]
+tags: ["Politics", "Health"]
 draft: true
 ---
 

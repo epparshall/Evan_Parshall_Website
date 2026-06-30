@@ -2,7 +2,7 @@
 title: "I Drink the Same Smoothie Every Morning. Here's What's In It."
 description: "A deep dive into the ingredients, benefits, and science behind my daily nutrient-dense smoothie."
 pubDate: 2026-05-27
-tags: ["health", "recipes", "routine", "longevity"]
+tags: ["Health", "Productivity"]
 ---
 
 Every morning I make the same smoothie, and it only takes about ten minutes to make. I started doing this because I wanted to make a habit of loading up on the things that are harder to eat standalone like spinach, flax seeds, turmeric, and Brazil nuts. The smoothie gives me a convenient way to get all of these in every morning.

@@ -10,7 +10,7 @@ const posts = await getCollection('blog', ({ data }) => {
 <BaseLayout title="Blog">
 	<header class="page-header">
 		<h1>Blog</h1>
-		<p class="subtitle">Writing on technology, routine, and ideas worth exploring in depth.</p>
+		<p class="subtitle">Writing on technology, health and wellness, finance, travel, politics, and ideas worth sharing.</p>
 	</header>
 
 	<div class="posts-list">
@@ -26,6 +26,13 @@ const posts = await getCollection('blog', ({ data }) => {
 					</time>
 					<h2>{post.data.title}</h2>
 					<p>{post.data.description}</p>
+					{post.data.tags && post.data.tags.length > 0 && (
+						<div class="post-tags">
+							{post.data.tags.map((tag) => (
+								<span class="tag">{tag}</span>
+							))}
+						</div>
+					)}
 					<span class="read-more">Read post &rarr;</span>
 				</a>
 			</article>
@@ -108,6 +115,25 @@ const posts = await getCollection('blog', ({ data }) => {
 		color: var(--color-accent-strong);
 	}
 
+	.post-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-top: 0.25rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.tag {
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		padding: 0.15rem 0.55rem;
+		background-color: var(--color-surface-muted, #f4f7f5);
+		color: var(--color-text-light);
+		border-radius: 999px;
+		border: 1px solid var(--color-border);
+	}
+
 	@media (max-width: 600px) {
 		.page-header {
 			margin-bottom: 1.75rem;
@@ -142,6 +168,16 @@ const posts = await getCollection('blog', ({ data }) => {
 
 		.post-card time {
 			margin-bottom: 0.65rem;
+		}
+
+		.post-tags {
+			gap: 0.3rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.tag {
+			font-size: 0.65rem;
+			padding: 0.1rem 0.45rem;
 		}
 	}
 </style>
