@@ -2,7 +2,7 @@
 title: "The Three Credit Cards I Actually Use"
 description: "A simple, no-annual-fee setup that covers every major spending category with at least 2% cash back."
 pubDate: 2026-05-27
-tags: ["finance", "productivity", "personal-finance"]
+tags: ["Finance"]
 ---
 
 I only use three credit cards. With these cards I always earn at least 2% back on whatever I buy, none of them have an annual fee, and combined they cover every major category I spend money in. This is the setup I have landed on after a couple years of refining, and it is simple enough that I do not have to think about which card to pull out at the register.

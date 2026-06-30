@@ -2,7 +2,7 @@
 title: "Sleep On It: The Engineering Case for Better Rest"
 description: "Adapted from a talk I gave at work about the biological necessity of sleep and how to optimize it for better performance."
 pubDate: 2026-05-21
-tags: ["health", "performance", "sleep"]
+tags: ["Health", "Productivity"]
 ---
 
 <div class="callout">

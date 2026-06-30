@@ -2,7 +2,7 @@
 title: "I Built a Personal Wiki With My LLM. Here's Why and How."
 description: "Why I stopped using RAG for personal data and switched to a persistent, English-first knowledge base maintained by an LLM."
 pubDate: 2026-05-27
-tags: ["AI", "LLM", "productivity", "knowledge-management"]
+tags: ["Technology", "AI", "Productivity"]
 ---
 
 A few months ago I read a [GitHub Gist from Andrej Karpathy](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The idea was simple: stop treating an LLM as a stateless oracle you have to re-explain everything to. Use it to maintain a personal wiki for you instead. Have it read your raw sources once. Summarize. Cross-link. Keep the bookkeeping current. Then when you have questions, reference the wiki, not the source pile.
