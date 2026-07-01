@@ -22,17 +22,18 @@ const allTags = Array.from(
 		<input
 			type="search"
 			id="search-input"
-			placeholder="Search posts by title or description..."
+			placeholder="Search posts..."
 			autocomplete="off"
 		/>
 
 		{allTags.length > 0 && (
 			<div class="multi-select">
 				<button type="button" id="tag-trigger" class="multi-select-trigger">
-					<span id="trigger-text">Filter by tags</span>
+					<span id="trigger-text">Tags</span>
 					<span class="chevron" aria-hidden="true">▾</span>
 				</button>
 				<div id="tag-panel" class="tag-panel hidden">
+					<div id="clear-all-tags" class="tag-option clear-option">Clear filters</div>
 					{allTags.map((tag) => (
 						<label class="tag-option">
 							<input type="checkbox" value={tag} />
@@ -42,8 +43,6 @@ const allTags = Array.from(
 				</div>
 			</div>
 		)}
-
-		<button type="button" id="clear-filters" class="clear-btn">Clear</button>
 	</div>
 
 	<div class="posts-list" id="posts-list">
@@ -86,11 +85,11 @@ const allTags = Array.from(
 			const searchInput = document.getElementById('search-input');
 			const postsList = document.getElementById('posts-list');
 			const noResults = document.getElementById('no-results');
-			const clearBtn = document.getElementById('clear-filters');
 			const trigger = document.getElementById('tag-trigger');
 			const panel = document.getElementById('tag-panel');
 			const multiSelect = trigger ? trigger.closest('.multi-select') : null;
 			const checkboxes = panel ? panel.querySelectorAll('input[type="checkbox"]') : [];
+			const clearOption = document.getElementById('clear-all-tags');
 
 			if (!searchInput || !postsList || !trigger || !panel) return;
 
@@ -109,7 +108,7 @@ const allTags = Array.from(
 				if (!textEl) return;
 
 				if (count === 0) {
-					textEl.textContent = 'Filter by tags';
+					textEl.textContent = 'Tags';
 					if (multiSelect) multiSelect.classList.remove('has-selection');
 				} else if (count === 1) {
 					textEl.textContent = Array.from(activeTags)[0];
@@ -123,6 +122,14 @@ const allTags = Array.from(
 					}
 					if (multiSelect) multiSelect.classList.add('has-selection');
 				}
+			}
+
+			function clearAllFilters() {
+				searchInput.value = '';
+				activeTags.clear();
+				checkboxes.forEach(cb => { cb.checked = false; });
+				closePanel();
+				updateAll();
 			}
 
 			function updateAll() {
@@ -161,12 +168,6 @@ const allTags = Array.from(
 				if (noResults) {
 					noResults.style.display = visibleCount === 0 ? 'block' : 'none';
 				}
-
-				// Update clear button state
-				if (clearBtn) {
-					const hasFilters = searchInput.value.trim() !== '' || activeTags.size > 0;
-					clearBtn.style.opacity = hasFilters ? '1' : '0.55';
-				}
 			}
 
 			function setTagActive(tag, isActive) {
@@ -179,13 +180,7 @@ const allTags = Array.from(
 			}
 
 			// Search
-			searchInput.addEventListener('input', () => {
-				filterPosts();
-				if (clearBtn) {
-					const hasFilters = searchInput.value.trim() !== '' || activeTags.size > 0;
-					clearBtn.style.opacity = hasFilters ? '1' : '0.55';
-				}
-			});
+			searchInput.addEventListener('input', filterPosts);
 
 			// Checkbox changes in dropdown
 			checkboxes.forEach((cb) => {
@@ -193,6 +188,14 @@ const allTags = Array.from(
 					setTagActive(cb.value, cb.checked);
 				});
 			});
+
+			// Clear filters option inside dropdown
+			if (clearOption) {
+				clearOption.addEventListener('click', (e) => {
+					e.stopPropagation();
+					clearAllFilters();
+				});
+			}
 
 			// Dropdown open / close
 			function openPanel() {
@@ -221,17 +224,6 @@ const allTags = Array.from(
 					closePanel();
 				}
 			});
-
-			// Clear button
-			if (clearBtn) {
-				clearBtn.addEventListener('click', () => {
-					searchInput.value = '';
-					activeTags.clear();
-					checkboxes.forEach(cb => { cb.checked = false; });
-					closePanel();
-					updateAll();
-				});
-			}
 
 			// Initial
 			updateAll();
@@ -454,24 +446,15 @@ const allTags = Array.from(
 		flex-shrink: 0;
 	}
 
-	.clear-btn {
-		height: 42px;
-		font-size: 0.8rem;
+	.clear-option {
 		font-weight: 600;
-		padding: 0 0.85rem;
-		background: none;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		color: var(--color-text-light);
-		cursor: pointer;
-		white-space: nowrap;
-		transition: all 0.15s ease;
-		flex-shrink: 0;
+		color: var(--color-accent-strong);
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: 0.2rem;
 	}
 
-	.clear-btn:hover {
-		border-color: var(--color-accent);
-		color: var(--color-accent);
+	.clear-option:hover {
+		background: var(--color-accent-soft);
 	}
 
 	.no-results {
@@ -526,14 +509,23 @@ const allTags = Array.from(
 			padding: 0.1rem 0.45rem;
 		}
 
+		.blog-filters {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0.4rem;
+		}
+
 		#search-input {
+			width: 100%;
 			font-size: 0.95rem;
-			padding: 0.5rem 0.85rem;
+			padding: 0.5rem 0.8rem;
 			height: 38px;
+			min-width: 0;
 		}
 
 		.multi-select {
-			flex: 0 0 170px;
+			width: 100%;
+			flex: none;
 		}
 
 		.multi-select-trigger {
@@ -544,13 +536,12 @@ const allTags = Array.from(
 
 		.tag-option {
 			font-size: 0.85rem;
-			padding: 0.3rem 0.6rem;
+			padding: 0.28rem 0.55rem;
 		}
 
-		.clear-btn {
-			font-size: 0.75rem;
-			padding: 0 0.7rem;
-			height: 38px;
+		.clear-option {
+			font-size: 0.85rem;
+			padding: 0.28rem 0.55rem;
 		}
 	}
 </style>
