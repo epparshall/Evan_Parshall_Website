@@ -409,7 +409,8 @@ const allTags = Array.from(
 		position: absolute;
 		top: calc(100% + 4px);
 		left: 0;
-		right: 0;
+		min-width: 180px;
+		max-width: 240px;
 		z-index: 20;
 		background: var(--color-surface);
 		border: 1px solid var(--color-border);
@@ -510,38 +511,39 @@ const allTags = Array.from(
 		}
 
 		.blog-filters {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 0.4rem;
+			gap: 0.35rem;
 		}
 
 		#search-input {
-			width: 100%;
-			font-size: 0.95rem;
-			padding: 0.5rem 0.8rem;
-			height: 38px;
-			min-width: 0;
+			font-size: 16px; /* prevents iOS Safari auto-zoom on focus */
+			padding: 0.4rem 0.6rem;
+			height: 34px;
+			min-width: 100px;
 		}
 
 		.multi-select {
-			width: 100%;
-			flex: none;
+			flex: 0 0 105px;
 		}
 
 		.multi-select-trigger {
-			font-size: 0.85rem;
-			padding: 0 0.6rem;
-			height: 38px;
+			font-size: 0.78rem;
+			padding: 0 0.4rem;
+			height: 34px;
 		}
 
 		.tag-option {
-			font-size: 0.85rem;
-			padding: 0.28rem 0.55rem;
+			font-size: 0.82rem;
+			padding: 0.25rem 0.5rem;
 		}
 
 		.clear-option {
-			font-size: 0.85rem;
-			padding: 0.28rem 0.55rem;
+			font-size: 0.82rem;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.tag-panel {
+			min-width: 160px;
+			max-width: 200px;
 		}
 	}
 </style>
