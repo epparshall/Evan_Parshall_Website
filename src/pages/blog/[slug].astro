@@ -51,6 +51,29 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 					))}
 				</div>
 			)}
+			{seriesEntries.length > 1 && (
+				<nav
+					class={`series-nav-compact${!previousSeriesEntry || !nextSeriesEntry ? ' single-link' : ''}`}
+					aria-label={`${entry.data.seriesTitle} series quick navigation`}
+				>
+					{previousSeriesEntry ? (
+						<a class="previous" href={`/blog/${previousSeriesEntry.id}`}>
+							<span>Previous</span>
+							<strong>{previousSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-nav-compact-spacer" aria-hidden="true"></span>
+					)}
+					{nextSeriesEntry ? (
+						<a class="next" href={`/blog/${nextSeriesEntry.id}`}>
+							<span>Next</span>
+							<strong>{nextSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-nav-compact-spacer" aria-hidden="true"></span>
+					)}
+				</nav>
+			)}
 		</header>
 		<div class="content">
 			<Content />
@@ -61,7 +84,7 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 					{previousSeriesEntry ? (
 						<a class="series-link previous" href={`/blog/${previousSeriesEntry.id}`}>
 							<span>Previous</span>
-							<strong>{previousSeriesEntry.data.seriesPart}/{previousSeriesEntry.data.seriesTotal} {previousSeriesEntry.data.title}</strong>
+							<strong>{previousSeriesEntry.data.title}</strong>
 						</a>
 					) : (
 						<span class="series-link-placeholder" aria-hidden="true"></span>
@@ -69,7 +92,7 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 					{nextSeriesEntry ? (
 						<a class="series-link next" href={`/blog/${nextSeriesEntry.id}`}>
 							<span>Next</span>
-							<strong>{nextSeriesEntry.data.seriesPart}/{nextSeriesEntry.data.seriesTotal} {nextSeriesEntry.data.title}</strong>
+							<strong>{nextSeriesEntry.data.title}</strong>
 						</a>
 					) : (
 						<span class="series-link-placeholder" aria-hidden="true"></span>
@@ -116,6 +139,49 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 		.series-label {
 			font-size: 0.76rem;
 		}
+
+		.series-nav-compact {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 0.65rem;
+			margin-bottom: 1.75rem;
+		}
+
+		.series-nav-compact-spacer {
+			display: block;
+			flex: 1 1 0;
+			min-width: 0;
+		}
+
+		.series-nav-compact a {
+			flex: 1 1 0;
+			max-width: 50%;
+		}
+
+		.series-nav-compact .next {
+			align-items: center;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link {
+			justify-content: center;
+		}
+
+		.series-nav-compact.single-link .series-nav-compact-spacer {
+			display: none;
+		}
+
+		.series-nav-compact.single-link a {
+			flex: 0 1 18rem;
+			max-width: 100%;
+		}
+
+		.series-nav-compact.single-link .next,
+		.series-nav-compact.single-link .previous {
+			align-items: center;
+			text-align: center;
+		}
 	}
 
 	.blog-post time {
@@ -132,7 +198,7 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		margin-bottom: 2.5rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.tag {
@@ -144,6 +210,54 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 		color: var(--color-text-light);
 		border-radius: 999px;
 		border: 1px solid var(--color-border);
+	}
+
+	.series-nav-compact {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
+		margin: 0 0 2.5rem;
+		padding: 0.8rem 0;
+		border-top: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.series-nav-compact a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.2rem;
+		min-width: 0;
+		color: var(--color-text);
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.series-nav-compact .next {
+		align-items: center;
+		justify-self: stretch;
+		text-align: center;
+	}
+
+	.series-nav-compact a:hover {
+		color: var(--color-accent-strong);
+		opacity: 1;
+	}
+
+	.series-nav-compact span {
+		color: var(--color-text-light);
+		font-size: 0.72rem;
+		font-weight: 750;
+		letter-spacing: 0.08em;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.series-nav-compact strong {
+		display: block;
+		font-size: 0.95rem;
+		line-height: 1.35;
+		overflow-wrap: break-word;
 	}
 
 	.content {
@@ -358,5 +472,29 @@ const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEn
 
 	.blog-post footer a:hover {
 		color: var(--color-accent);
+	}
+
+	@media (max-width: 600px) {
+		.series-nav-compact.single-link {
+			display: block;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link .series-nav-compact-spacer {
+			display: none;
+		}
+
+		.series-nav-compact.single-link a {
+			display: block;
+			width: 100%;
+			max-width: none;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link span,
+		.series-nav-compact.single-link strong {
+			display: block;
+			text-align: center;
+		}
 	}
 </style>

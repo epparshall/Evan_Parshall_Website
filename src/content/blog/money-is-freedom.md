@@ -1,6 +1,6 @@
 ---
 title: "Money Is Freedom"
-description: "Junaid asked for financial advice, so I wrote this personal finance series. This first post is my philosophy on money: the simplest piece, but the most important to understand. Thanks to Colin and Meyer for encouraging me to write and helping me learn."
+description: "My good friend Junaid asked for financial advice, so I wrote this series for him. Thanks to Colin and Meyer for their encouragement as well."
 pubDate: 2026-07-03
 tags: ["Finance"]
 seriesTitle: "Personal Finance"
