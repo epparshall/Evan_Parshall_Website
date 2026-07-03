@@ -13,11 +13,29 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const publishedEntries = await getCollection('blog', ({ data }) => {
+	return data.draft !== true;
+});
+const seriesEntries = entry.data.seriesTitle
+	? publishedEntries
+		.filter((post) => post.data.seriesTitle === entry.data.seriesTitle)
+		.sort((a, b) => (a.data.seriesPart || 0) - (b.data.seriesPart || 0))
+	: [];
+const currentSeriesIndex = seriesEntries.findIndex((post) => post.id === entry.id);
+const previousSeriesEntry = currentSeriesIndex > 0 ? seriesEntries[currentSeriesIndex - 1] : null;
+const nextSeriesEntry = currentSeriesIndex >= 0 && currentSeriesIndex < seriesEntries.length - 1
+	? seriesEntries[currentSeriesIndex + 1]
+	: null;
 ---
 
 <BaseLayout title={entry.data.title}>
 	<article class="blog-post">
 		<header>
+			{entry.data.seriesTitle && entry.data.seriesPart && entry.data.seriesTotal && (
+				<p class="series-label">
+					{entry.data.seriesTitle} Series {entry.data.seriesPart}/{entry.data.seriesTotal}
+				</p>
+			)}
 			<h1>{entry.data.title}</h1>
 			<time datetime={entry.data.pubDate.toISOString()}>
 				{entry.data.pubDate.toLocaleDateString('en-US', {
@@ -33,17 +51,75 @@ const { Content } = await render(entry);
 					))}
 				</div>
 			)}
+			{seriesEntries.length > 1 && (
+				<nav
+					class={`series-nav-compact${!previousSeriesEntry || !nextSeriesEntry ? ' single-link' : ''}`}
+					aria-label={`${entry.data.seriesTitle} series quick navigation`}
+				>
+					{previousSeriesEntry ? (
+						<a class="previous" href={`/blog/${previousSeriesEntry.id}`}>
+							<span>Previous</span>
+							<strong>{previousSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-nav-compact-spacer" aria-hidden="true"></span>
+					)}
+					{nextSeriesEntry ? (
+						<a class="next" href={`/blog/${nextSeriesEntry.id}`}>
+							<span>Next</span>
+							<strong>{nextSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-nav-compact-spacer" aria-hidden="true"></span>
+					)}
+				</nav>
+			)}
 		</header>
 		<div class="content">
 			<Content />
 		</div>
 		<footer>
+			{seriesEntries.length > 1 && (
+				<nav class="series-nav" aria-label={`${entry.data.seriesTitle} series`}>
+					{previousSeriesEntry ? (
+						<a class="series-link previous" href={`/blog/${previousSeriesEntry.id}`}>
+							<span>Previous</span>
+							<strong>{previousSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-link-placeholder" aria-hidden="true"></span>
+					)}
+					{nextSeriesEntry ? (
+						<a class="series-link next" href={`/blog/${nextSeriesEntry.id}`}>
+							<span>Next</span>
+							<strong>{nextSeriesEntry.data.title}</strong>
+						</a>
+					) : (
+						<span class="series-link-placeholder" aria-hidden="true"></span>
+					)}
+				</nav>
+			)}
 			<a href="/blog">&larr; Back to all posts</a>
 		</footer>
 	</article>
 </BaseLayout>
 
 <style>
+	.series-label {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.75rem;
+		margin-bottom: 1rem;
+		padding: 0.22rem 0.65rem;
+		border: 1px solid rgba(166, 86, 69, 0.28);
+		border-radius: 999px;
+		background: rgba(166, 86, 69, 0.08);
+		color: var(--color-accent-warm);
+		font-size: 0.82rem;
+		font-weight: 750;
+		line-height: 1;
+	}
+
 	.blog-post h1 {
 		margin-bottom: 0.75rem;
 		font-size: clamp(2.35rem, 5vw, 3.75rem);
@@ -58,6 +134,53 @@ const { Content } = await render(entry);
 
 		.content {
 			font-size: 1.1rem;
+		}
+
+		.series-label {
+			font-size: 0.76rem;
+		}
+
+		.series-nav-compact {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 0.65rem;
+			margin-bottom: 1.75rem;
+		}
+
+		.series-nav-compact-spacer {
+			display: block;
+			flex: 1 1 0;
+			min-width: 0;
+		}
+
+		.series-nav-compact a {
+			flex: 1 1 0;
+			max-width: 50%;
+		}
+
+		.series-nav-compact .next {
+			align-items: center;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link {
+			justify-content: center;
+		}
+
+		.series-nav-compact.single-link .series-nav-compact-spacer {
+			display: none;
+		}
+
+		.series-nav-compact.single-link a {
+			flex: 0 1 18rem;
+			max-width: 100%;
+		}
+
+		.series-nav-compact.single-link .next,
+		.series-nav-compact.single-link .previous {
+			align-items: center;
+			text-align: center;
 		}
 	}
 
@@ -75,7 +198,7 @@ const { Content } = await render(entry);
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		margin-bottom: 2.5rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.tag {
@@ -87,6 +210,54 @@ const { Content } = await render(entry);
 		color: var(--color-text-light);
 		border-radius: 999px;
 		border: 1px solid var(--color-border);
+	}
+
+	.series-nav-compact {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
+		margin: 0 0 2.5rem;
+		padding: 0.8rem 0;
+		border-top: 1px solid var(--color-border);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.series-nav-compact a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.2rem;
+		min-width: 0;
+		color: var(--color-text);
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.series-nav-compact .next {
+		align-items: center;
+		justify-self: stretch;
+		text-align: center;
+	}
+
+	.series-nav-compact a:hover {
+		color: var(--color-accent-strong);
+		opacity: 1;
+	}
+
+	.series-nav-compact span {
+		color: var(--color-text-light);
+		font-size: 0.72rem;
+		font-weight: 750;
+		letter-spacing: 0.08em;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.series-nav-compact strong {
+		display: block;
+		font-size: 0.95rem;
+		line-height: 1.35;
+		overflow-wrap: break-word;
 	}
 
 	.content {
@@ -232,6 +403,67 @@ const { Content } = await render(entry);
 		border-top: 1px solid var(--color-border);
 	}
 
+	.series-nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.series-link {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		min-height: 5.5rem;
+		padding: 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background: var(--color-surface);
+		text-decoration: none;
+		box-shadow: var(--shadow-sm);
+		transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	}
+
+	.series-link:hover {
+		border-color: rgba(47, 111, 94, 0.45);
+		box-shadow: var(--shadow-md);
+		transform: translateY(-2px);
+		opacity: 1;
+	}
+
+	.series-link span {
+		color: var(--color-text-light);
+		font-size: 0.78rem;
+		font-weight: 750;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.series-link strong {
+		color: var(--color-text);
+		font-size: 1rem;
+		line-height: 1.35;
+	}
+
+	.series-link.next {
+		text-align: right;
+	}
+
+	@media (max-width: 600px) {
+		.series-nav {
+			grid-template-columns: 1fr;
+			gap: 0.75rem;
+		}
+
+		.series-link-placeholder {
+			display: none;
+		}
+
+		.series-link.next {
+			text-align: left;
+		}
+	}
+
 	.blog-post footer a {
 		font-weight: 600;
 		color: var(--color-text-light);
@@ -240,5 +472,29 @@ const { Content } = await render(entry);
 
 	.blog-post footer a:hover {
 		color: var(--color-accent);
+	}
+
+	@media (max-width: 600px) {
+		.series-nav-compact.single-link {
+			display: block;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link .series-nav-compact-spacer {
+			display: none;
+		}
+
+		.series-nav-compact.single-link a {
+			display: block;
+			width: 100%;
+			max-width: none;
+			text-align: center;
+		}
+
+		.series-nav-compact.single-link span,
+		.series-nav-compact.single-link strong {
+			display: block;
+			text-align: center;
+		}
 	}
 </style>
